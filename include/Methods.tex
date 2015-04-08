@@ -1,0 +1,47 @@
+\chapter{Methods}
+We here describe our methodology for the development process of the protocol and the reference implementation. The test network for the reference implementation is also described.
+
+\section{Implementation workflow}
+We have opted to open source all artifacts throughout the development process, so that others might benefit from our work.
+
+Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized.
+
+\section{Development tools}
+The following tools have been used to provide a more efficient development process and a refined project planning structure.
+
+\subsection{Git}
+Git is a distributed revision control system widely by developers. It is based on speed, integrity of data and supported for distributed non-linear workflows~\cite{git}. Git is used in this project to manage code divided into different repositories and branches and to provide detailed logging of changes. 
+
+\subsection{Pivotal Tracker}
+In order to utilize a smooth agile development process Pivotal Tracker is used. Pivotal Tracker is a story-based planning tool which lets members of the team add new stories and chores to the project. It is based on agile-development methods, which suits the team~\cite{pivotaltracker}. Pivotal Tracker provides several story logs: tasks for the current sprint, a backlog, and an icebox for stories that need grooming.
+
+\subsection{AlethZero}
+AlethZero is a proof of concept graphical client for Ethereum~\cite{github-alethzero}. It is written in C++ and Qt. It is used as a development environment for Ethereum-based applications and provides rich access to in the blockchain, as well as ways to easily interact with it. Endpoints for Whisper.
+
+\section{Test environment}
+A test environment is chosen and set up in order to test the implementation of the Distributed Cloud Computing Platform. In this chapter detailed information about the system is provided.
+
+\subsection{Hardware}
+The hardware chosen to test the project was 3 x Raspberry Pi 2 Model B. Raspberry Pi 2 has enough performance to test a simple and small blockchain as well as hosting a web server when acting as a worker in the test environment. 
+
+\begin{table}[h]
+\centering
+\caption{Raspberry Pi 2 Model B Specifications \textbf{Källa?}}
+\begin{tabular}{|l|l|}
+\hline \textbf{Processor} & 900MHz quad-core ARM Cortex-A7 CPU \\ \hline
+\textbf{Memory} & 1,024 MB LPDDR2 \\ \hline 
+\textbf{I/O Ports} & 4x USB, RJ45, microSD, 40-pin GPIO \\ \hline
+\textbf{A/V Ports} & HDMI, RCA video, 3.5 mm audio \\ \hline
+\textbf{Networking} & 10/100Mbit Ethernet \\ \hline
+\textbf{Storage} & microSD card slot \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Network}
+The test environment has had two specific tasks under development, distributed compilation and private blockchain network.
+
+\textbf{Compiler network.} Since much of the software we are working with is still unfinished, we are required to update it regularly. This takes a large amount of processing power every time it is done, so in order to speed up the process a distributed compiler network was deployed at an early stage. To facilitate this the hardware is networked together via an Ethernet switch, enabling fast communication between all the nodes as well as the Internet when required. 
+
+\textbf{Private blockchain.} While testing and developing our software implementation we required some level of control over the network. Primarily because both running our implementation as well as testing it requires the use of the Ethereum cryptocurrency. For this a local Ethereum blockchain was deployed during the early stages of development. Later on in the development testing was done on the larger Ethereum test network and eventually the implementation will be deployed on the official Ethereum blockchain.
+
+% Skriv om offentlig blockchain!

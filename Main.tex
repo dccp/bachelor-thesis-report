@@ -1,0 +1,87 @@
+% CREATED BY DAVID FRISK, 2014
+
+% IMPORT SETTINGS
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\input{include/settings/Settings}
+
+\begin{document} 
+
+% COVER PAGE, TITLE PAGE AND IMPRINT PAGE
+\pagenumbering{roman}			% Roman numbering (starting with i (one)) until first main chapter
+\input{include/frontmatter/Titlepage}
+
+% ABSTRACT
+\newpage
+\input{include/frontmatter/Abstract}
+
+% ACKNOWLEDGEMENTS
+%\newpage
+%\input{include/frontmatter/Acknowledgements}
+
+% VOCABULARY
+\newpage
+\input{include/frontmatter/Vocabulary}
+
+% TABLE OF CONTENTS
+\newpage
+\tableofcontents
+
+% OTHER FRONTMATTER
+% List of figures (add to table of contents)
+%\addcontentsline{toc}{chapter}{\listfigurename} \listoffigures
+% List of tables (add to table of contents)
+%\addcontentsline{toc}{chapter}{\listtablename}  \listoftables
+
+
+% START OF MAIN DOCUMENT
+\cleardoublepage
+\setcounter{page}{1}
+\pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
+
+% INTRODUCTION
+\input{include/Introduction}
+
+% Technical background
+% Should contain information about design choices etc.
+\input{include/Technical_background}
+
+% METHODS
+\input{include/Methods}
+
+% SOLUTION
+\input{include/Solution}
+
+\chapter{Results, Discussion, Conclusion}
+Nothing to see here, move along...
+
+% SUMMARY
+%\input{include/Results}
+ 
+% DISCUSSION
+%\input{include/Discussion}
+
+% CONCLUSION
+%\input{include/Conclusion}
+
+
+% REFERENCES / BIBLIOGRAPHY
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\input{include/backmatter/References}
+
+% APPENDICES
+\cleardoublepage
+\appendix
+\setcounter{page}{1}
+\pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
+
+%\input{include/backmatter/Appendix_1}
+
+% All subheadings
+%\section{Section}
+%\subsection{Subsection}
+%\subsubsection{Subsubsection}
+%\paragraph{Paragraph}
+%\subparagraph{Subparagraph}
+
+\end{document}
