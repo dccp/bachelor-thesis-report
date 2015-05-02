@@ -5,15 +5,15 @@ In this chapter we shall provide a technical background of the concepts which th
 Bitcoin sparked a revolution in digital currencies when the white paper was released in 2009. The innovation of the blockchain and its implications is of special interest. All technical details are taken from the Bitcoin white paper \cite{btc}, unless noted otherwise.
 
 \subsection{General idea}
-The purpose of Bitcoin is to provide a financial system where participants can send and receive money without involvement of third parties. Traditionally, these third parties consist of a governmental institution controlling a currency, and one or more commercial banks that transfer money from the sender to the recipient. This is problematic because a third party can perform malicious actions and moreover exert complete control over the process. Bitcoin introduces a decentralized exchange of digital tokens, where no middleman is required, nor is any trust between sender and recipient required. The only requirement to use Bitcoin is to have a computer with Internet access. Bitcoin ownership is linked to cryptographic keys, thus, a cryptographic public key is analogous to a bank account number. The intrinsic value of Bitcoin is discussed in \cite{buterin:2011}. We shall now briefly discuss the key points of the Bitcoin whitepaper which enables the network to function. Below, Bitcoin (capitalized) refers to the Bitcoin network, and BTC refers to the currency.
+The purpose of Bitcoin is to provide a financial system where participants can send and receive money without involvement of third parties. Traditionally, these third parties consist of a governmental institution controlling a currency, and one or more commercial banks that transfer money from the sender to the recipient. This is problematic because a third party can perform malicious actions and moreover exert complete control over the process. Bitcoin introduces a decentralized exchange of digital tokens, where no middleman is required, nor is any trust between sender and recipient required. The only requirement to use Bitcoin is to have a computer with Internet access. Bitcoin ownership is linked to cryptographic keys, thus, a cryptographic public key is somewhat similar to a bank account. The intrinsic value of Bitcoin is discussed in~\cite{buterin:2011}. We shall now briefly discuss the key points of the Bitcoin whitepaper which enables the network to function. Below, Bitcoin (capitalized) refers to the Bitcoin network, and BTC refers to the currency.
 
 \subsection{Transactions}
-Transactions in the Bitcoin network are made in the following way: If Alice has one BTC and wants to send it to Bob, she will create a transaction stating that she transfers one BTC to Bob. The transaction is signed using her cryptographic private key, and then broadcast to the network. An attacker cannot spend Alice's BTC because the transaction can only be signed by Alice.
+Transactions in the Bitcoin network are made in the following way: If Alice has one BTC and wants to send it to Bob, she will create a transaction stating that she transfers one BTC to Bob. The transaction is signed using her cryptographic private key, and then broadcast to the network. An attacker cannot spend Alice's BTC because the transaction can only be signed by her private key.
 
 \subsection{Blockchain}
 Bitcoin is based around the innovation called the \emph{blockchain}\footnote{The gramatically correct ``block chain'' has not gained widespread popularity.}. Nodes in the Bitcoin network collect new transactions that are broadcast to the network, transactions are then checked for validity and placed together in a block of transactions. Besides the transactions, each of these blocks contain the hash of their parent block, and a nonce proving that sufficient work has been performed by the node creating the block. Since any valid transaction is part of some block, and all valid blocks are chained together, the blockchain can be seen as a distributed ledger, and proof of the true state of the network. 
 
-A new block is created approximately every 10 minutes. To calculate the current state of the network, the whole graph of blocks must be traversed.
+A new block is created approximately every 10 minutes, with all transactions that occurred since the last block creation bulked in it. Figure~\ref{blockchain} shows the chain of blocks. Each block contains its parent hash; a nonce that proves the validity of the block; and all the transactions in the block. To calculate the current state of the network, the whole graph of blocks must be traversed.
 
 \begin{figure}[ht]
 \centering
@@ -45,10 +45,11 @@ A new block is created approximately every 10 minutes. To calculate the current 
     \path[-latex] (start3) edge (end);
 \end{tikzpicture}
 \caption{Visualisation of blocks in the blockchain}
+\label{blockchain}
 \end{figure}
 
 \subsection{Proof-of-work}
-As stated above, the nonce is used to show that a node has performed a specific amount of work. Specifically, this is done by calculating the hash of all the contents in the block. In turn, the hash must adhere to the current difficulty level of the network. The difficulty level is a mechanic used to control how long, on average, the nodes of the network must work before a block is found. Once every week the difficulty is adjusted, to match the computational power available in the network. This is tuned to ensure an average block rate of approximately one block every 10 minutes. There is no way to know what the hash will be before the calculation is done, so the nonce has to be randomly chosen until a low enough hash has been found.\footnote{Ska inte detta komma tidigare i stycket?}
+As stated above, the nonce is used to show that a node has performed a specific amount of work. There is no way to know what the hash will be before the calculation is done, so the nonce has to be randomly chosen until a low enough hash has been found. Specifically, this is done by calculating the hash of all the contents in the block with a function return a hash value lower than a network-wide set value, which is determined by the current difficulty level of the network. The difficulty level is a mechanic used to control how long, on average, the nodes of the network must work before a block is found. Once every week the difficulty is adjusted, to match the computational power available in the network. This is tuned to ensure an average block rate of approximately one block every 10 minutes. 
 
 \subsection{Verification}
 The blockchain solves a fundamental problem of transferring value online, namely that data (for instance money) could be copied and sent to multiple recipients. Alice can spend the same BTC twice by signing two different transactions. However, only one of these transactions will be accepted into a block, after which the other transaction will be considered invalid.
@@ -57,12 +58,12 @@ The blockchain solves a fundamental problem of transferring value online, namely
 In order for the network to fully function, peer members of the network must provide the verifying calculations for the integrity of the blockchain. Without incitement, it would be unbelievable that peers would share their computational power to the benefit of the network. In the Bitcoin network, whenever the proof-of-work for a block is found, the worker is provided a number of BTC. The current reward is 25 BTC, however this reward halves every four years. Incentivizing the verification process thus leads to a more secure and robust network.
 
 \subsection{Weakness}
-There is one particular weakness in the way the blockchain integrity behaves. By default, nodes accept the longest blockchain as the representation of the network state, and the longest blockchain is always the one that has the most raw computing power behind it. However, if an attacker has control of more than 50\% of the computing power in the network she can take control of the blockchain by introducing transactions on a tampered blockchain. If an attacker manages to modify a block in an ``illegal'' way, and computes enough subsequent proof-of-work to make this blockchain the longest, with the modified block in it, other nodes will also start working on that chain, since it is the longest and thus the true representation of the network state. The situation is in practice very unlikely, since massive computing power would be needed in order to overthrow the Bitcoin blockchain.
+There is one particular weakness in the way the blockchain integrity behaves. By default, nodes accept the longest blockchain as the representation of the network state, and the longest blockchain is always the one that has the most raw computing power behind it. However, if an attacker has control of more than 50\% of the computing power in the network she can take control of the blockchain by introducing transactions on a tampered blockchain. If an attacker manages to modify a block in an illegal way, and computes enough subsequent proof-of-work to make this blockchain the longest, with the modified block in it, other nodes will also start working on that chain, since it is the longest and thus the true representation of the network state. The situation is in practice very unlikely, since massive computing power would be needed in order to overthrow the Bitcoin blockchain.
 
 \section{Ethereum}
-Following the advent of Bitcoin and the blockchain, a number of initiatives were started to explore and utilize the power of the blockchain within a distributed and decentralized application context. One example is Namecoin, which uses the blockchain to store domain names. As a result of each project aiming to solve one specific problem, segmentation in the cryptocurrency projects ensued, with lots of duplication of effort. The Ethereum project was started to unify the open source blockchain efforts and provide a general purpose blockchain protocol which allows running arbitrary code in the blockchain. This means that any type of features can be programmed onto this protocol. Code is packaged in something called smart contracts, and are executed on a virtual machine, the Ethereum Virtual Machine (EVM) \cite{ethereum:quote}.
+Following the advent of Bitcoin and the blockchain, a number of initiatives were started to explore and utilize the power of the blockchain within a distributed and decentralized application context. One example is Namecoin, which uses the blockchain to store domain names. As a result of each project aiming to solve one specific problem, segmentation in the cryptocurrency projects ensued, with lots of duplication of effort. The Ethereum project was started to unify the open source blockchain efforts and provide a general purpose blockchain protocol which allows running arbitrary code in the blockchain. This means that any type of features can be programmed onto this protocol. Code is packaged in something called smart contracts, and are executed on a virtual machine, the Ethereum Virtual Machine (EVM)~\cite{ethereum:white}. The Ethereum network is built on top of DEVP2P, a peer-to-peer network between all nodes running Ethereum-compatible software.
 
-As started above, Ethereum provides the Ethereum Virtual Machine (EVM), and this is the part that handles internal state and computation. The actual EVM can be seen as a decentralized computer containing all accounts on a specific blockchain. There are currently two kinds of accounts in Ethereum; Externally owned accounts and Contracts. Externally owned accounts are controlled by a private key and can send or receive messages and ether. A contract on the other hand has its own code and is \emph{controlled} by code. Both of these contracts can execute code, communicate to each other and maintain an internal database. 
+\textbf{Skriv om stycket.} As started above, Ethereum provides the Ethereum Virtual Machine (EVM), and this is the part that handles internal state and computation. The actual EVM can be seen as a decentralized computer containing all accounts on a specific blockchain. There are currently two kinds of accounts in Ethereum; Externally owned accounts and Contracts. Externally owned accounts are controlled by a private key and can send or receive messages and ether. A contract on the other hand has its own code and is \emph{controlled} by code. Both of these contracts can execute code, communicate to each other and maintain an internal database. 
 
 \subsection{Smart contracts}
 Smart contracts are a way to move and control assets using code to set up and enforce arbitrary rules. Contracts can currently be defined in three programming languages seen below. All of these programming languages are Turing complete which is necessary for the system to work and to be fair\footnote{Vem har skrivit? Källa?}. The programming languages can be used in order to define contracts and are compiled to EVM byte code before they are incorporated into the blockchain.
@@ -73,7 +74,9 @@ Smart contracts are a way to move and control assets using code to set up and en
     \item LLL (Lisp-like)
 \end{itemize}
 
-Make a reference to an Appendix with contracts?
+Smart contracts are inserted into the blockchain by creating a transaction containing the EVM code. The resulting contract will receive a unique hexadecimal identifier that can be used for subsequent contract interactions.
+
+Skriv om interactions!
 
 % http://szabo.best.vwh.net/smart_contracts_idea.html
 
@@ -81,13 +84,13 @@ Make a reference to an Appendix with contracts?
 The notion of a Turing complete language executing in a blockchain raises the halting problem. In a Turing complete language there is no way to know whether a particular program will halt or not. To ensure that each contract interaction does halt, every Ethereum virtual machine instruction has a price, which must be paid by the requesting party~\cite{ethereum:yellow}. Therefore it is possible to argue that the EVM is \emph{quasi}-Turing complete in practice.
 
 \subsection{Whisper}
-The messaging protocol Whisper is used to send anonymous messages over the Ethereum network. The trivial solution, sending messages over the Ethereum blockchain, is not a good communication channel because it would be too expensive to send messages. Whisper solves this for short- to medium lived messages. The origin node sends a Whisper message to each of its connected peers. Whenever a Whisper message is received, the process is repeated until the message time to live has expired. Before the inital broadcast of the Whisper message, a proof-of-work must be completed. This to prevent spamming.
+The messaging protocol Whisper is used to send anonymous messages over the Ethereum network. A trivial solution to create a message protocol for the network would be to store messages in the blockchain, however, this is infeasible because it would be too expensive to send messages. Whisper solves the problem for short- to medium lived messages. The origin node sends a Whisper message to each of its connected peers. Whenever a Whisper message is received, the process is repeated until the message time to live has expired. Before the inital broadcast of the Whisper message, a proof-of-work must be completed, in order to prevent flooding of the network.
 
 \subsection{External APIs}
-An Ethereum client (either local or remote) can be accessed by two APIs. The lower level API, the Ethereum generic JSON-RPC is a remote procedure call scheme suited for fine grained control of the host client~\cite{generic-json-rpc}. On the higher level, there exists a JavaScript API built top of the JSON-RPC API ~\cite{javascript-api}. The JavaScript API is especially useful for web application frontends with a backend either completely or partially stored in the Ethereum blockchain.
+An Ethereum client (either local or remote) can be accessed by two APIs. The lower level API, the Ethereum generic JSON-RPC is a remote procedure call scheme suited for fine grained control of the host client~\cite{generic-json-rpc}. On the higher level, there exists a JavaScript API built top of the JSON-RPC API~\cite{javascript-api}. The JavaScript API is especially useful for web application frontends with a backend either completely or partially stored in the Ethereum blockchain.
 
 \subsection{Ethereum ecosystem}
-To use the Ethereum network, a client connected to the Ethereum network is required. There are a number of different clients, and client environments (perhaps listed in an Appendix?).
+To use the Ethereum network, a client connected to the Ethereum network is required. There are a number of different clients, and client environments, listed in Table 2.1. \textbf{Gör tabell!}
 % Ethereum application stack according to V. Buterin
 % http://www.reddit.com/r/ethereum/comments/2p7i3w/is_this_the_ethereum_application_stack/
 % Hitta annan källa? 
@@ -101,14 +104,21 @@ To use the Ethereum network, a client connected to the Ethereum network is requi
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.30\linewidth]{figure/ethereum-applicationstack.pdf}
-\centering
-\caption{Ethereum Application Stack~\cite{eth:applicationstack}.
-\textbf{TODO:} replace this with tikzpicture}
+\begin{tikzpicture}[auto]
+\tikzset{every node/.style={minimum width=5cm,minimum height=1.5cm}}
+\node[rectangle,draw] (dapps) {Decentralized applications};
+\node[rectangle,draw] (mist) [below=0cm of dapps] {Mist};
+\node[rectangle,draw] (devenv) [below=0cm of mist] {Development environment};
+\node[rectangle,draw,minimum width=2.5cm] (ethereum) [below=1.5cm of devenv.west, anchor=west] {Ethereum};
+\node[rectangle,draw,minimum width=2.5cm] (whisper) [below=1.5cm of devenv.east, anchor=east] {Whisper};
+\node[rectangle,draw] (devp2p) [below=1.5cm of ethereum.west, anchor=west] {DEVP2P};
+\node[rectangle,draw] (internet) [below=0cm of devp2p] {\textit{Internet}};
+\end{tikzpicture}
+\caption{Ethereum Application Stack.}
 \end{figure}
 
-Under the Ethereum umbrella project, a whole ecosystem for decentralized applications is developed. To interface decentralized applications to end users, the preffered method is to build front ends in standard web technologies, such as JavaScript and HTML, which most end users and developers are familiar with. Since the identity of the user is linked to their Ethereum public key, users never need to sign up or create accounts in these decentralized applications, since their public key uniquely identifies them.
-From a development standpoint, this invites to rich client applications and thin servers. In figure 3.2, the application stack is listed. 
+Under the Ethereum project umbrella, a whole ecosystem for decentralized applications is developed. To deliver decentralized applications to end users, the preferred method is to build frontends in standard web technologies, such as JavaScript and HTML, which most end users and developers are familiar with. Since the identity of the user is linked to their Ethereum public key, users never need to sign up or create accounts in these decentralized applications, since their public key uniquely identifies them. The frontend interfaces with an Ethereum client to interact with the underlying network peers and the business logic stored in the smart contracts associated with the application. In Figure 2.2, the full application stack is listed.
+From a development standpoint, this invites to rich client applications and thin servers, where in fact most web content can be served statically, since the application data and business logic is stored in the blockchain. Note the contrast to traditional web application architectures, where data and business logic is available only to and through the application server. With a decentralized application, the data and business logic is available and auditable by all users of the application.
 
 \section{Docker}
 Software today is generally quite complex. A website, for example, is most often much more than a simple HTML-document. There might be a database, a server-side scripting engine (there are many), a few custom-built server-side programs for specific data processing or some common or uncommon software libraries. Since all pieces of work do not require all of these components, but may require other pieces of software instead, it is clearly both impractical and very limiting to bundle the required pieces of software as one large application stack. The best solution is to package each of these work-specific requirements (dependencies) together with the piece of work itself. A piece of software that accomplishes this goal is Docker.
@@ -116,7 +126,7 @@ Software today is generally quite complex. A website, for example, is most often
 \subsection{Virtualized containers}
 Docker uses virtualization techniques to create isolated environments called containers, these can be executed as if they were a runnable file. How this is done is outside of the scope of this subject.
 There are two distinct advantages for this; since the containers are a full application packaged with its dependencies, it comes pre-compiled and is ready to run on any architecture that supports Docker. 
-The other advantage is that a piece of work is isolated from both the system it is running on, as well as other potential pieces of work. If the code were to run directly on the system a number of exploits would have been possible.~\cite{korpela:2012}
+The other advantage is that a piece of work is isolated from both the system it is running on, as well as other potential pieces of work. If the code were to run directly on the system a number of exploits would have been possible~\cite{korpela:2012}.
 
 \subsection{Security}
 An important factor when volunteering to run arbitrary code on your machine is security. 
@@ -124,14 +134,14 @@ How can you ensure that you are not running software that will read or corrupt t
 In an action to prevent this, Docker containers are executed in a separate environment, a \emph{kernel namespace}, to each other and the host machine. This means that it cannot know about or interact with the outside world~\cite{docker-security}. An application running totally isolated may not sound ideal for hosting a webapp, but that is where Docker shines again. You can specify ports where your application can be accessed from inside the virtual machine, thus again making it possible to run code in a secure way.
 There are always security implications of running code not written by you, but we feel that we have done enough in the scope of this project.
 
-\section{Network thingys}
-Write stuff about network and adult men doing things together.
+\section{Networking}
+Communicating between devices over a local network is relatively simple, but for connections via the Internet, a device behind a firewall first needs to . In order for a device behind a firewall to communicate with a remote Internet-connected device, the device first needs to traverse its local gateways NAT (Network Address Translation) system. This is generally 
 
 \subsection{UPnP}
 Universal Plug and Play, abbreviated UPnP, is a network protocol that allows connected devices to discover each others presence and establish a connection to each other on a network in order to share data, communicate and allow media services to work~\cite{upnp}. UPnP port forwarding can be implemented in several ways, such as Internet Gateway Device Protocol and NAT-PMP. 
 
 \subsection{Internet Gateway Device Protocol}
-Internet Gateway Device Protocol, IGD, is a NAT Port Mapping Protocol which is supported by many routers. Many applications, such as Ethereum and Zeppelin, require the ability to send and receive data from the Internet. In cases when there is a NAT enabled router between the sender and recipient, NAT traversal must take place in order for communication to work~\cite{igd:main}.
+Internet Gateway Device Protocol, IGD, is a NAT Port Mapping Protocol which is supported by many routers. Many applications, such as Ethereum and Zeppelin, require the ability to send and receive data from the Internet. In cases where there is a NAT enabled router between the sender and recipient, NAT traversal must take place in order for communication to work~\cite{igd:main}.
 
 \begin{figure}
 \centering
@@ -147,3 +157,4 @@ Internet Gateway Device Protocol, IGD, is a NAT Port Mapping Protocol which is s
 \end{figure}
 
 \subsection{NAT-PMP}
+NAT-PMP was developed by Apple as an alternative to Internet Gateway Device Protocol. It is used as a network protocol for port forwarding without user interaction~\cite{nat-pmp}.

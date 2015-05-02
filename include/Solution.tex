@@ -3,7 +3,7 @@ Our solution consists of a general protocol, which fulfills the demands of the p
 In addition to the protocol, a reference implementation has been developed and tested on a small scale network.
 
 \section{General protocol}
-The network connects clients, who pay to perform work, with workers, that get paid to perform work. In order for the network, and its cloud computing platform, to thrive, it relies on an open market where the supply of workers meets the demand of clients. Any person with a computer could register to become a worker and get paid for the work they perform, and conversely, any person with the desire to execute arbitrary code can do so, provided they can pay for it. The high level flow of workers and clients within the network is shown in figure~\ref{network-schema}.
+The network connects clients, who pay to perform work, with workers, which are paid to perform work. In order for the network, and its cloud computing platform, to thrive, it relies on an open market where the supply of workers meets the demand of clients. Any person with a computer could register to become a worker and receive payment for the work they perform, and conversely, any person with the desire to execute arbitrary code can do so, provided they can pay for it. The high level flow of workers and clients within the network is shown in Figure~\ref{network-schema}.
 
 \begin{figure}[ht]
 \centering
@@ -37,7 +37,7 @@ The network connects clients, who pay to perform work, with workers, that get pa
 We propose that a blockchain with capability to store and execute code can be used to satisfy the requirements specified in 1.2 Purpose.
 
 \subsection{Dependencies and assumptions}
-We assume that there exists some external blockchain in/on which, the network will store its data and that it provides trustless arbitration between the involved parties. We use the term contract as a shorthand for smart contract, which we shall define to be a concept with at least the set of capabilities of smart contracts as described in the Ethereum white paper \cite{ethereum:main}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume we have a way of packaging work so that it is easy for workers to perform and for clients to package.
+We assume that there exists some external blockchain in/on which, the network will store its data and that it provides trustless arbitration between the involved parties. We use the term contract as a shorthand for smart contract, which we shall define to be a concept with at least the set of capabilities of smart contracts as described in the Ethereum white paper~\cite{ethereum:white}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume we have a way of packaging work so that it is easy for workers to perform and for clients to package.
 
 We shall note that the protocol is platform agnostic, in spite of the assumptions made and the dependencies required.
 
@@ -47,7 +47,8 @@ Communication at the network level consists of actions which change the state of
 \item storing data that must be persistent;
 \item arbitration between worker and client; and
 \item to hold monetary value in escrow.
-\end{inparaenum} 
+\end{inparaenum}
+Events triggering these actions bla bla bla...
 
 \subsection{Direct communication between clients and workers}
 For the communication between specific clients and workers, private chat is used. When transferring data from the client to the worker encrypted TCP/IP traffic is used. The hosted data provided by the worker is accessible through http/https (OBS: givet att det i dockern finns en webbserver som snurrar, vad händer om t.ex. porten är upptagen? Docker garanterar inte att en viss service startar på en viss port).
@@ -64,24 +65,54 @@ WorkerDispatcher is the main contract of the protocol. It provides a way for wor
 When a client has received a WorkAgreement from the WorkerDispatcher the client initiates a comunication with the assigned worker through private chat. The client starts by sending the WorkAgreement contract address to the worker. The worker proceeds to check if it agrees the contract and that it is correct. When the verification is done the worker sends a message over private chat to the client with the IP and port for transferring the packaged work (explained in next section). When the transfer is done the worker starts to deploy the packaged work. When the work is ready to be accessed the worker sends a message to the client specifying the IP and port for http/https access.
 
 \subsection{Docker-transfer in action!}
-Docker magic!
+Docker magic! Hitta på namn för den abstrakta specen.
 
 \subsection{Auditing/Verification}
-Verification of work
+In order to know that a worker is performing a given work, other workers are assigned as verifiers. These verifiers are given a time frame in which they are required to report checked parameters of the given worker to the WorkAgreement contract. The most basic check that could be done is simply for the verifier to check that the worker is providing the given work through the IP and port that it has communicated. This does however only check uptime of the given worker not that the work has been correctly performed. More rigid testing could be done by the verifiers by making more specific request to the worker, but since the verifiers do not really know anything about the work to be done, the client will have to provide this specific request information.
+
+\subsection{Payment arbitration}
+When a WorkAgreement is created it must also be provided with an appropriate amount of payment for the given work. The value of this payment is then held in escrow by the contract until some specified conditions in the contract has been met. These conditions consists of verifications that the verifiers have performed and checks that the worker has performed for the given amount of time. When all conditions are met the worker can make a special method call to the WorkAgreement and the contract will make a payout the the worker.
 
 \subsection{Security concerns}
-What? Security? Never heard of it.
+The protocol itself can be seen as secure in most aspects as it mostly runs on top of a blockchain. Security concerns can instead be found in that individual workers can be attacked. Workers provide their services through regular http/https connections and is therefore vulnerable to DDos-attacks and MITM-attacks etc. just as regular service providers are. The protocol does not take this into account and thus only reward workers that have successfully provided results. However if the protocol is implemented correctly only the client and verifiers can know the IP-address of the worker if the client doesn't share it.
 
-\subsection{Market}
-Free market means starvation of nodes does not matter.
+\subsection{Environmental impact}
+Hähähähä \cite{cook}.
 
 \section{Reference implementation: Zeppelin}
-The reference implementation, called Zeppelin\footnote{Because a Zeppelin navigates above the clouds with grace.} is a web application for end users, which is dependent on the Ethereum network. For computational integrity, the client constructs a Docker image which is sent to the worker. The application is built with a node.js backend containing docker-xfer, and a client javascript application built in React which acts like a frontend to both docker-xfer and the Ethereum contracts. Thin server, fat client.
+The reference implementation, called Zeppelin,\footnote{Because a Zeppelin navigates above the clouds with grace.} is a web application for end users, which is dependent on the Ethereum network. For computational integrity, the client constructs a Docker image which is sent to the worker. The implementation is built around the concept of a thin server, and a fat client. Of note is the fact that there are two backends with which the frontend communicates; the webserver, acting as the \textit{traditional} backend; and the smart contract interaction through Ethereum, acting as the secondary backend for all blockchain-based interactions.
 
-\begin{figure}[H]
+\subsection{System design}
+The system design is characterized by high modularity, allowing for reuse or reimplementation of most modules within the solution stack. In Figure~\ref{zep-stack}, the component diagram for the full stack is shown. The only strict dependency is on Docker, all other components can be substituted.
+
+\textbf{Zeppelin frontend.} For the simplicity of the end user, all interactions are made in a web interface, in the form of a client application, implemented in React. The frontend interacts with two backends to display data.
+
+\textbf{Zeppelin backend.} This module acts as the \textit{traditional} backend, serving the static client web application and acting as a RESTful server for user interactions with Docker. The REST API is specified in \textbf{Figure XX}.
+
+\textbf{Docker transfer.} Client and server for sending and receiving gzipped Docker images and running the containers.
+
+\begin{figure}[ht]
 \centering
-\includegraphics[width=0.80\linewidth, trim=3cm 1cm 3cm 1cm]{figure/deployment.pdf}
-\caption{Deployment diagram of Zeppelin}
+\begin{tikzpicture}[auto]
+\tikzset{every node/.style={minimum width=5cm,minimum height=1cm}}
+\node[rectangle,draw] (frontend) {Frontend};
+\node[rectangle,draw] (backend) [below=1cm of frontend] {Backend};
+\node[rectangle,draw] (xfer) [below=1cm of backend] {Docker transfer};
+\node[rectangle,draw] (docker) [below=1cm of xfer] {Docker daemon};
+\node[rectangle,draw] (web3) [left=1cm of backend] {web3.js};
+\node[rectangle,draw] (ethcl) [below=1cm of web3] {Ethereum client};
+\node[cylinder, shape border rotate=90, draw] (ethblk) [below=1cm of ethcl] {Ethereum blockchain};
+
+\path[-latex] 
+    (frontend)  edge    node    {REST}              (backend)
+    (backend)   edge    node    {JS import lol}     (xfer)
+    (xfer)      edge    node    {Native}    (docker)
+    (frontend)  edge [bend right] node [swap] {JS import lol} (web3)
+    (web3)      edge    node    {JSON-RPC}          (ethcl)
+    (ethcl)     edge    node    {DEVP2P}            (ethblk);
+\end{tikzpicture}
+\caption{Zeppelin full stack}
+\label{zep-stack}
 \end{figure}
 
 \subsection{Contracts}
@@ -90,13 +121,7 @@ The Ethereum contract implementation is realized in the C- and JavaScript-like E
 contract WorkAgreement {
     address client;
     address worker;
-    mapping (address => bool) testers;
-    uint price;
-    uint end;
     function WorkAgreement(address _client, address _worker, uint _price, uint length) {
-        client = _client;
-        worker = _worker;
-        price = _price;
         end = length;
     }
     function addTester(address tester) {
@@ -106,7 +131,9 @@ contract WorkAgreement {
 \end{lstlisting}
 
 \subsection{Security}
-The Zeppelin network is resistant to DDoS-attacks, since it is decentralized. Since each user of the network deploys Zeppelin locally, and Ethereum is impervious to DDoS-attacks, service uptime is guaranteed. 
+The Zeppelin network is resistant to DDoS-attacks, since it is decentralized. Since each user of the network deploys Zeppelin locally, and Ethereum is impervious to DDoS-attacks, service uptime is guaranteed.
+
+\subsection{Deployment}
+How do I deploy the internets?!?!
 
 % Skriv om problem vi löser, typ DDoS etc
-% UPnP

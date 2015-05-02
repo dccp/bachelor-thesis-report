@@ -1,33 +1,36 @@
 \chapter{Methods}
 We here describe our methodology for the development process of the protocol and the reference implementation. The test network for the reference implementation is also described.
 
-\section{Implementation workflow}
-We have opted to open source all artifacts throughout the development process, so that others might benefit from our work.
+\section{Bla bla Ethereum}
+Vi använder en existerande blockchain för att a) open source b) minska fragmentarisering c) out of scope
 
-Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized.
+\section{Implementation workflow}
+All artifacts have been open source throughout the development process, so that others might benefit from the research.
+
+Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized. Exempt from this principle was the Ethereum client AlethZero, which was under development throughout the process. It is still in a pre-alpha stage as of April 30, 2015. At times, the workflow has been completely halted due to breaking bugs present in the AlethZero software. In the spirit of open source software, we have been active contributors with bugreports.
 
 \section{Development tools}
 The following tools have been used to provide a more efficient development process and a refined project planning structure.
 
 \subsection{Git}
-Git is a distributed revision control system widely by developers. It is based on speed, integrity of data and supported for distributed non-linear workflows~\cite{git}. Git is used in this project to manage code divided into different repositories and branches and to provide detailed logging of changes. 
+Git is a distributed revision control system widely used by developers. It is based on speed, integrity of data and supported for distributed non-linear workflows~\cite{git}. Git is used in this project to manage code divided into different repositories and branches and to provide detailed logging of changes. 
 
 \subsection{Pivotal Tracker}
-In order to utilize a smooth agile development process Pivotal Tracker is used. Pivotal Tracker is a story-based planning tool which lets members of the team add new stories and chores to the project. It is based on agile-development methods, which suits the team~\cite{pivotaltracker}. Pivotal Tracker provides several story logs: tasks for the current sprint, a backlog, and an icebox for stories that need grooming.
+In order to utilize an agile development process Pivotal Tracker is used. Pivotal Tracker is a story-based planning tool which allows members of the team to add stories to a virtual project board. It is based on agile development methods, which suits the team. Pivotal Tracker provides several story logs: tasks for the current sprint, a backlog, and an icebox for stories that need grooming~\cite{pivotaltracker}. Stories are automatically arranged in the backlog according to their estimated size and the projected sprint velocity. Each story item can be further elaborated by a number of subtasks related to it. 
 
 \subsection{AlethZero}
-AlethZero is a proof of concept graphical client for Ethereum~\cite{github-alethzero}. It is written in C++ and Qt. It is used as a development environment for Ethereum-based applications and provides rich access to in the blockchain, as well as ways to easily interact with it. Endpoints for Whisper.
+AlethZero is a proof of concept graphical client for Ethereum~\cite{github-alethzero}, implemented in C++ and Qt. It is used as a development environment for Ethereum-based decentralized applications and provides rich access to the blockchain and the DEVP2P network. For debugging, or manual blockchain interaction, it is possible to make Ether transactions, contract creation transactions or contract interaction transactions from the graphical user interface. A graphical user interface is also available for Whisper. AlethZero implements the JSON-RPC API, which by default is exposed on port 8080.
 
 \section{Test environment}
-A test environment is chosen and set up in order to test the implementation of the Distributed Cloud Computing Platform. In this chapter detailed information about the system is provided.
-% Skriv om vårt deployscript
+A test environment is chosen and set up in order to test the implementation of the cloud computing platform. In this chapter detailed information about the system is provided.
 
 \subsection{Hardware}
-The hardware chosen to test the project was 3 x Raspberry Pi 2 Model B. Raspberry Pi 2 has enough performance to test a simple and small blockchain as well as hosting a web server when acting as a worker in the test environment. 
+To test the project, the Raspberry Pi 2 Model B, which has enough performance to test a simple and small blockchain as well as hosting a web server when acting as a worker in the test environment. The hardware specifications are listed in Table~\ref{rpi}. Three Raspberry Pi computers have acted as the backbone for our testing network.
 
 \begin{table}[h]
 \centering
-\caption{Raspberry Pi 2 Model B Specifications\cite{rpi}}
+\caption{Raspberry Pi 2 Model B Specifications~\cite{rpi}}
+\label{rpi}
 \begin{tabular}{|l|l|}
 \hline \textbf{Processor} & 900MHz quad-core ARM Cortex-A7 CPU \\ \hline
 \textbf{Memory} & 1,024 MB LPDDR2 \\ \hline 
@@ -45,4 +48,4 @@ The test environment has had two specific tasks under development, distributed c
 
 \textbf{Private blockchain.} While testing and developing our software implementation we required some level of control over the network. Primarily because both running our implementation as well as testing it requires the use of the Ethereum cryptocurrency. For this a local Ethereum blockchain was deployed during the early stages of development. Later on in the development testing was done on the larger Ethereum test network and eventually the implementation will be deployed on the official Ethereum blockchain.
 
-% Skriv om offentlig blockchain!
+Skriv om offentlig blockchain och våra ZepNet1337-utilities!
