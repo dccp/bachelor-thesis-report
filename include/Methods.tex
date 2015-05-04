@@ -1,13 +1,13 @@
 \chapter{Methods}
 We here describe our methodology for the development process of the protocol and the reference implementation. The test network for the reference implementation is also described.
 
-\section{Bla bla Ethereum}
-Vi använder en existerande blockchain för att a) open source b) minska fragmentarisering c) out of scope
-
 \section{Implementation workflow}
 All artifacts have been open source throughout the development process, so that others might benefit from the research.
 
-Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized. Exempt from this principle was the Ethereum client AlethZero, which was under development throughout the process. It is still in a pre-alpha stage as of April 30, 2015. At times, the workflow has been completely halted due to breaking bugs present in the AlethZero software. In the spirit of open source software, we have been active contributors with bugreports.
+Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized. Exempt from this principle was the Ethereum client AlethZero, which was under development throughout the process. It is still in a pre-alpha stage as of April 30, 2015. At times, the workflow has been completely halted due to breaking bugs present in the AlethZero software. In the spirit of open source software, we have been active contributors with bug reports and feedback.
+
+\section{General purpose blockchain}
+An existing blockchain is used due to the inherent security in a wider network. Implementing our own general purpose blockchain would be out of scope for the thesis. Thus, we have opted to utilize the Ethereum general purpose blockchain, and develop smart contracts for the Ethereum platform.
 
 \section{Development tools}
 The following tools have been used to provide a more efficient development process and a refined project planning structure.
@@ -22,7 +22,7 @@ In order to utilize an agile development process Pivotal Tracker is used. Pivota
 AlethZero is a proof of concept graphical client for Ethereum~\cite{github-alethzero}, implemented in C++ and Qt. It is used as a development environment for Ethereum-based decentralized applications and provides rich access to the blockchain and the DEVP2P network. For debugging, or manual blockchain interaction, it is possible to make Ether transactions, contract creation transactions or contract interaction transactions from the graphical user interface. A graphical user interface is also available for Whisper. AlethZero implements the JSON-RPC API, which by default is exposed on port 8080.
 
 \section{Test environment}
-A test environment is chosen and set up in order to test the implementation of the cloud computing platform. In this chapter detailed information about the system is provided.
+A test environment was chosen and set up in order to test the implementation of the cloud computing platform, with multiple actors. In this chapter detailed information about the system is provided.
 
 \subsection{Hardware}
 To test the project, the Raspberry Pi 2 Model B, which has enough performance to test a simple and small blockchain as well as hosting a web server when acting as a worker in the test environment. The hardware specifications are listed in Table~\ref{rpi}. Three Raspberry Pi computers have acted as the backbone for our testing network.
@@ -46,6 +46,8 @@ The test environment has had two specific tasks under development, distributed c
 
 \textbf{Compiler network.} Since much of the software we are working with is still unfinished, we are required to update it regularly. This takes a large amount of processing power every time it is done, so in order to speed up the process a distributed compiler network was deployed at an early stage. To facilitate this the hardware is networked together via an Ethernet switch, enabling fast communication between all the nodes as well as the Internet when required. 
 
-\textbf{Private blockchain.} While testing and developing our software implementation we required some level of control over the network. Primarily because both running our implementation as well as testing it requires the use of the Ethereum cryptocurrency. For this a local Ethereum blockchain was deployed during the early stages of development. Later on in the development testing was done on the larger Ethereum test network and eventually the implementation will be deployed on the official Ethereum blockchain.
+\textbf{Private blockchain.} While testing and developing our software implementation we required some level of control over the network. Primarily because both running our implementation as well as testing it requires the use of the Ethereum cryptocurrency. For this a local Ethereum blockchain was deployed during the early stages of development.
 
-Skriv om offentlig blockchain och våra ZepNet1337-utilities!
+\textbf{Nodes in the public blockchain.} The test environment was moved to the public blockchain, to have a complete mirror of the production environment while developing.
+
+\textbf{Client and worker emulation.} Since access to centralized applications on the Ethereum network can be provided through a web application, the clients running on the Raspberry Pi computers can be accessed remotely and used as test slaves. The most simple way to achieve this, is to expose the JSON-RPC port, and setting the web application to use the remote JSON-RPC as its data source.

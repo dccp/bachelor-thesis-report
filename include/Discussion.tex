@@ -1,8 +1,5 @@
 \chapter{Discussion}
-
 Diskussion och metoddiskussion!
-
-UPnP fungerade inte, tråkigt. Löste med config-fil och port-forwarding istället.
 
 Whisper fungerar inte. => Cannot encrypt docker-xfer
 
@@ -11,3 +8,10 @@ Docker?
 Miljö är kul enligt rektorn, lägga resonnemang och bös här? T.ex. skriva om att det är mindre energiförbrukning om alla delar med sig av lite processorkraft om datorn ändå är på eller dylikt. 
 
 Bad as actual technology proof of concept due to the fact that we still require a regular backend. (Though cool because we show that they can interoperate.)
+
+\section{Reference implementation}
+The reference implementation Zeppelin does not implement the whole protocol implementation. One of the main factors that caused this is that the Ethereum platform is still under heavy development. Throughout the project we have been unable to reliably test new features and a lot of times working features have been broken due to changes in Ethereum. This made it really hard to make any steady progress on a lot of protocol features. Instead we focused on getting the "Distribution of work" as good as possible.
+
+The Internet is a large complicated structure, to negotiate communication between hosts is not always easy. Hosts behind routers need to have a port forwarded to be able to communicate with our network. The initial solution was to use the "Universal Plug and Play"-protocol, UPnP for port forwarding. This would, in theory, solve our problem.
+
+Unfortunately, due to time constraints and problems during implementation this feature did not reach a working state. Instead we resorted to a solution that only works for the environment we are using; setting a port in the external router and created a configuration file, "hard coded" the port. 

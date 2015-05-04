@@ -37,9 +37,9 @@ The network connects clients, who pay to perform work, with workers, which are p
 We propose that a blockchain with capability to store and execute code can be used to satisfy the requirements specified in 1.2 Purpose.
 
 \subsection{Dependencies and assumptions}
-We assume that there exists some external blockchain in/on which, the network will store its data and that it provides trustless arbitration between the involved parties. We use the term contract as a shorthand for smart contract, which we shall define to be a concept with at least the set of capabilities of smart contracts as described in the Ethereum white paper~\cite{ethereum:white}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume we have a way of packaging work so that it is easy for workers to perform and for clients to package.
+We assume that there exists some external blockchain in/on which, the network will store its data and that it provides trustless arbitration between the involved parties. The term contract is used as a shorthand for smart contract, which we shall define to be a concept with at least the set of capabilities of smart contracts as described in the Ethereum white paper~\cite{ethereum:white}. \textbf{Lista dessa!} We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume we have a way of packaging work so that it is easy for workers to perform and for clients to package.
 
-We shall note that the protocol is platform agnostic, in spite of the assumptions made and the dependencies required.
+Note that the protocol is platform agnostic, in spite of the assumptions made and the dependencies required.
 
 \subsection{Communicating with the network}
 Communication at the network level consists of actions which change the state of at least one contract in the blockchain. Contracts are used for
@@ -77,10 +77,11 @@ When a WorkAgreement is created it must also be provided with an appropriate amo
 The protocol itself can be seen as secure in most aspects as it mostly runs on top of a blockchain. Security concerns can instead be found in that individual workers can be attacked. Workers provide their services through regular http/https connections and is therefore vulnerable to DDos-attacks and MITM-attacks etc. just as regular service providers are. The protocol does not take this into account and thus only reward workers that have successfully provided results. However if the protocol is implemented correctly only the client and verifiers can know the IP-address of the worker if the client doesn't share it.
 
 \subsection{Environmental impact}
+Not much research has been done in the environmental impact of decentralized networks. It is very hard to forese  
 Hähähähä \cite{cook}.
 
 \section{Reference implementation: Zeppelin}
-The reference implementation, called Zeppelin,\footnote{Because a Zeppelin navigates above the clouds with grace.} is a web application for end users, which is dependent on the Ethereum network. For computational integrity, the client constructs a Docker image which is sent to the worker. The implementation is built around the concept of a thin server, and a fat client. Of note is the fact that there are two backends with which the frontend communicates; the webserver, acting as the \textit{traditional} backend; and the smart contract interaction through Ethereum, acting as the secondary backend for all blockchain-based interactions.
+The reference implementation, called Zeppelin,\footnote{Because a Zeppelin navigates above the clouds with grace.} is a web application for end users, which is dependent on the Ethereum network. For computational integrity, the client constructs a Docker image which is sent to the worker. The implementation is built around the concept of a thin server, and a fat client. Of note is the fact that there are two backends with which the frontend communicates; the webserver, acting as the \textit{traditional} backend; and the smart contract interaction through Ethereum, acting as the secondary backend for all blockchain-based interactions. Zeppelin is not a complete implementation of the protocol described above. Rather it only deals with the aspect of distribution of work. However it is possible to build upon Zeppelin to implement the remaining features of the protocol.
 
 \subsection{System design}
 The system design is characterized by high modularity, allowing for reuse or reimplementation of most modules within the solution stack. In Figure~\ref{zep-stack}, the component diagram for the full stack is shown. The only strict dependency is on Docker, all other components can be substituted.
@@ -96,20 +97,20 @@ The system design is characterized by high modularity, allowing for reuse or rei
 \begin{tikzpicture}[auto]
 \tikzset{every node/.style={minimum width=5cm,minimum height=1cm}}
 \node[rectangle,draw] (frontend) {Frontend};
-\node[rectangle,draw] (backend) [below=1cm of frontend] {Backend};
+\node[rectangle,draw] (backend) [below right=2cm,-4cm of frontend] {Backend};
 \node[rectangle,draw] (xfer) [below=1cm of backend] {Docker transfer};
 \node[rectangle,draw] (docker) [below=1cm of xfer] {Docker daemon};
-\node[rectangle,draw] (web3) [left=1cm of backend] {web3.js};
+\node[rectangle,draw] (web3) [below left=2cm,-4cm of frontend] {web3.js};
 \node[rectangle,draw] (ethcl) [below=1cm of web3] {Ethereum client};
-\node[cylinder, shape border rotate=90, draw] (ethblk) [below=1cm of ethcl] {Ethereum blockchain};
+\node[cylinder, shape border rotate=90, draw, height=0.5] (ethblk) [below=1cm of ethcl] {Ethereum blockchain};
 
 \path[-latex] 
-    (frontend)  edge    node    {REST}              (backend)
+    (frontend)  edge [bend left]  node    {REST}              (backend)
     (backend)   edge    node    {JS import lol}     (xfer)
     (xfer)      edge    node    {Native}    (docker)
     (frontend)  edge [bend right] node [swap] {JS import lol} (web3)
-    (web3)      edge    node    {JSON-RPC}          (ethcl)
-    (ethcl)     edge    node    {DEVP2P}            (ethblk);
+    (web3)      edge    node  [swap]  {JSON-RPC}          (ethcl)
+    (ethcl)     edge    node  [swap]  {DEVP2P}            (ethblk);
 \end{tikzpicture}
 \caption{Zeppelin full stack}
 \label{zep-stack}
