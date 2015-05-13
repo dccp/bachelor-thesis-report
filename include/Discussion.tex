@@ -1,17 +1,41 @@
 \chapter{Discussion}
-Diskussion och metoddiskussion!
+The result of the study is a protocol for a decentralized cloud computing platform where a free market is used to distribute work throughout the network. In its current state, the protocol is best suited to host web applications, but could easily be extended to more complex types of applications. The protocol itself has no single point of failure, or any external authority which might revoke access to it. However, the workers in the network can still be individually attacked, but it can be argued that workers have the motivation to mitigate such attacks since their payment is dependent on work performance.
+The network achieves decentralization because
+\begin{inparaenum}[\itshape a\upshape)]
+\item the specification and reference implementation are both open source;
+\item each end user retains a copy of the blockchain in which the smart contracts and data of the application are stored; and
+\item each end user runs the application locally. 
+\end{inparaenum}
 
-Whisper fungerar inte. => Cannot encrypt docker-xfer
+In the introduction, three basic requirements for the network were listed. The network must be transparent, resilient and trustless. By virtue of the open and distributed data store of blockchain, the network can be deemed to be transparent. Resilience is achieved on the data store level by the Ethereum network, and on the work execution level by incentives offered to workers. The inherent trustlessness in the blockchain and smart contracts allows parties to agree upon work and payment. Thus, we argue that these requirements have been met.
 
-Docker?
+\section{Method discussion}
+To alleviate further research to take over where the authors left, and other stuff...
 
-Miljö är kul enligt rektorn, lägga resonnemang och bös här? T.ex. skriva om att det är mindre energiförbrukning om alla delar med sig av lite processorkraft om datorn ändå är på eller dylikt. 
+\subsection{Choice of Ethereum client}
+When the project started, there were three different Ethereum clients widely used; The C++ based client cpp-ethereum, the Go-lang based client go-ethereum and the Python based client pyethereum. All of the clients are developed in parallel to each other and some of the clients have reached further towards the goal than others. We changed client a couple of times from cpp-ethereum to go-ethereum and then back to cpp-ethereum. go-ethereum is supposed to be the main client when Ethereum is released, but when we started programming Zeppelin cpp-ethereum was way ahead of go-ethereum. This caused us quite a pickle: To go with the client supposed to be the main client on release or the client currently most developed. We chose cpp-ethereum because of its feature rich environment including AlethZero which we use as GUI for developing contracts and many other things. However, Zeppelin works quite well with go-ethereum as well. 
 
-Bad as actual technology proof of concept due to the fact that we still require a regular backend. (Though cool because we show that they can interoperate.)
+\subsection{Choice of programming language}
+To begin with, the reference implementation was supposed to be created in Python using HTTP-requests to access the JSON-RPC API provided by ethereum. In the early stages of the implementation we discovered that the JSON-RPC API did not contain an implementation of the Ethereum ABI (Application Binary Interface). Due to the fact that the ABI would require too much work to implement we decided to use Ethereum's JavaScript API called web3.js. This API implements the JSON-RPC API and the Ethereum ABI. The change from Python to JavaScript as the implementation language resulted in a change from creating a native application to creating a web application.
 
-\section{Reference implementation}
-The reference implementation Zeppelin does not implement the whole protocol implementation. One of the main factors that caused this is that the Ethereum platform is still under heavy development. Throughout the project we have been unable to reliably test new features and a lot of times working features have been broken due to changes in Ethereum. This made it really hard to make any steady progress on a lot of protocol features. Instead we focused on getting the "Distribution of work" as good as possible.
+\section{Protocol discussion}
+ip link set wlp2s0 down
 
-The Internet is a large complicated structure, to negotiate communication between hosts is not always easy. Hosts behind routers need to have a port forwarded to be able to communicate with our network. The initial solution was to use the "Universal Plug and Play"-protocol, UPnP for port forwarding. This would, in theory, solve our problem.
+\section{Reference implementation discussion}
+The reference implementation, Zeppelin, does not fulfill the whole protocol specification. One of the main factors that caused this is that the Ethereum platform is still under heavy development. Throughout the project we have been unable to reliably test new features and a lot of times working features have been broken due to changes in Ethereum. This made it really hard to make any steady progress on a lot of protocol features. Instead we focused on getting the "Distribution of work" as good as possible. 
 
-Unfortunately, due to time constraints and problems during implementation this feature did not reach a working state. Instead we resorted to a solution that only works for the environment we are using; setting a port in the external router and created a configuration file, "hard coded" the port. 
+Since the decentralized technology is emerging, demonstrations and proof of concepts are key tools to achieve user and developer participation. In that sense, the Zeppelin implementation could be bad as an actual technology proof of concept due to the fact that it still requires a regular backend. However, it should still be viewed as a feat, because we show that both can, in fact, interoperate.
+
+\subsection{Whisper}
+At first, Whisper, Ethereums own P2P messaging protocol, was supposed to be used in order to exchange information between a client and a worker such as IP-addresses and ports, also called private chat in this report. Whisper only needs a public key and a topic in order to communicate, which comes very handy for us. Unfortunately, the Ethereum developers didn't focus on getting Whisper to work completely so we faced a lot of bugs and malfunctioning software. We went through other possible solutions and decided to go away from Whisper and store more information in the smart contract instead. Due to this, some of the privacy and security wanted in this project was sacrificed in order to get a working reference implementation. 
+
+As mentioned before, this sacrificies some security. In our implementation, all IP-addresses and ports are accessible via the contract for anyone who has the blockchain. If an attacker has all IP-addresses for every node (both worker and client) he or she can easily DDoS all participating nodes in the network. This is particularly dangerous in our case since the network is very small. 
+
+\subsection{Networking}
+The Internet is a large complicated structure, to negotiate communication between hosts is not always easy. Hosts behind routers need to have one or several ports forwarded to be able to communicate with our network. All of the test units used in this project, Zeppelins, were hosted on a Local Area Network (LAN) with private IP-addresses. This caused problems with Network Address Translation (NAT). Two ports is needed in order for Zeppelin to work, one for the JSON-RPC and one for the Node web server. The initial solution was to use the "Universal Plug and Play"-protocol, UPnP for port forwarding, or "Network Address Translation Port Management Protocol", NAT-PMP. This would in theory, solve our problem. 
+
+Unfortunately, due to time constraints and problems during the implementation this feature did not reach a working state. The only way to test UPnP and/or NAT-PMP is via Local Area Network behind a NAT-enabled router. Since all coding and testing is done remotely from a network with public IP-addresses with no NAT-enabled router, there was no compelling way to ensure functionality of this. Instead of continuing on the UPnP solution, we resorted to a solution that only works for the environment we are using (or any environment with power users that forward ports on their own); setting a port in the external router and created a configuration file, hence, "hard coded" the port. This is a simple solution to the problem and since we don't strive to get a fully working product it is more than sufficient for us. 
+
+\subsection{Docker and security}
+Docker dock.
+Client string är gött.

@@ -1,3 +1,47 @@
-% CREATED BY DAVID FRISK, 2014
-\chapter{Appendix 1}
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\chapter{Zeppelin API listings}
+\label{app:api}
+This appendix lists the REST API offered by Zeppelin backend and the JavaScript API offered by Docker transfer.
+
+\section{Zeppelin backend REST API}
+
+\begin{lstlisting}
+GET /images
+List all Docker images.
+Default response: 200
+Response model:
+
+Array[Image] {
+}
+Image {
+  Created (integer),
+  Id (string),
+  Labels (Array[string], optional),
+  ParentId (string),
+  RepoDigests (Array[oklart]),
+  RepoTags (Array[string]),
+  Size (integer),
+  VirtualSize (integer)
+}
+
+POST /transfer
+Initialize the Docker transfer client to start sending the specified Docker image to the host and port.
+
+Body model:
+TransferData {
+  imageHash (string),
+  host (string),
+  port (string)
+}
+
+POST /receive
+Initalize the Docker transfer server to start listening for an incoming connection on the specified port.
+
+Body model:
+RecipientData {
+  port (string)
+}
+
+\end{lstlisting}
+
+\section{Docker transfer JavaScript API}
+Docker transfer and the spiders from Mars.

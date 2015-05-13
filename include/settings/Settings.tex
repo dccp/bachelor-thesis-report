@@ -22,6 +22,7 @@
 \usepackage[top=3cm, bottom=3cm,
 			inner=3cm, outer=3cm]{geometry}			% Page margin lengths			
 \usepackage{eso-pic}								% Create cover page background
+\usepackage{multirow}  % REST-API tables
 \newcommand{\backgroundpic}[3]{
 	\put(#1,#2){
 	\parbox[b][\paperheight]{\paperwidth}{
@@ -88,7 +89,7 @@
 \hypersetup{colorlinks, citecolor=black,
    		 	filecolor=black, linkcolor=black,
     		urlcolor=black}
-
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
 
 % Define the number of section levels to be included in the t.o.c. and numbered	(3 is default)	
 \setcounter{tocdepth}{5}

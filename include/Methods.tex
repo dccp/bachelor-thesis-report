@@ -1,10 +1,8 @@
 \chapter{Methods}
-We here describe our methodology for the development process of the protocol and the reference implementation. The test network for the reference implementation is also described.
+We shall here describe our methodology for the development process of the protocol and the reference implementation, and provide backgrounds and motivations for the third party software used. The test network used for the reference implementation is also described.
 
 \section{Implementation workflow}
-All artifacts have been open source throughout the development process, so that others might benefit from the research.
-
-Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized. Exempt from this principle was the Ethereum client AlethZero, which was under development throughout the process. It is still in a pre-alpha stage as of April 30, 2015. At times, the workflow has been completely halted due to breaking bugs present in the AlethZero software. In the spirit of open source software, we have been active contributors with bug reports and feedback.
+All produced software artifacts and their source code have been open source throughout our development process, so that others might benefit from the research, especially since this technology is in its cradle. Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized. Exempt from this principle was the Ethereum client AlethZero, which was under development throughout the entire length of the study. 
 
 \section{General purpose blockchain}
 An existing blockchain is used due to the inherent security in a wider network. Implementing our own general purpose blockchain would be out of scope for the thesis. Thus, we have opted to utilize the Ethereum general purpose blockchain, and develop smart contracts for the Ethereum platform.
@@ -19,7 +17,7 @@ Git is a distributed revision control system widely used by developers. It is ba
 In order to utilize an agile development process Pivotal Tracker is used. Pivotal Tracker is a story-based planning tool which allows members of the team to add stories to a virtual project board. It is based on agile development methods, which suits the team. Pivotal Tracker provides several story logs: tasks for the current sprint, a backlog, and an icebox for stories that need grooming~\cite{pivotaltracker}. Stories are automatically arranged in the backlog according to their estimated size and the projected sprint velocity. Each story item can be further elaborated by a number of subtasks related to it. 
 
 \subsection{AlethZero}
-AlethZero is a proof of concept graphical client for Ethereum~\cite{github-alethzero}, implemented in C++ and Qt. It is used as a development environment for Ethereum-based decentralized applications and provides rich access to the blockchain and the DEVP2P network. For debugging, or manual blockchain interaction, it is possible to make Ether transactions, contract creation transactions or contract interaction transactions from the graphical user interface. A graphical user interface is also available for Whisper. AlethZero implements the JSON-RPC API, which by default is exposed on port 8080.
+AlethZero is a proof of concept graphical client for Ethereum~\cite{github-alethzero}, implemented in C++ and Qt. It is used as a development environment for Ethereum-based decentralized applications and provides rich access to the blockchain and the DEVP2P network. For debugging, or manual blockchain interaction, it is possible to make Ether transactions, contract creation transactions or contract interaction transactions from the graphical user interface. A graphical user interface is also available for Whisper. AlethZero implements the JSON-RPC API, making it possible to use it as a backend for decentralized applications.
 
 \section{Test environment}
 A test environment was chosen and set up in order to test the implementation of the cloud computing platform, with multiple actors. In this chapter detailed information about the system is provided.
@@ -29,7 +27,7 @@ To test the project, the Raspberry Pi 2 Model B, which has enough performance to
 
 \begin{table}[h]
 \centering
-\caption{Raspberry Pi 2 Model B Specifications~\cite{rpi}}
+\caption{Raspberry Pi 2 Model B Specifications~\cite{rpi}.}
 \label{rpi}
 \begin{tabular}{|l|l|}
 \hline \textbf{Processor} & 900MHz quad-core ARM Cortex-A7 CPU \\ \hline
