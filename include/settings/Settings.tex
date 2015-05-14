@@ -1,28 +1,29 @@
 % CREATED BY DAVID FRISK, 2014
 
 % BASIC SETTINGS
-\usepackage{moreverb}								% List settings
-\usepackage{textcomp}								% Fonts, symbols etc.
-\usepackage{lmodern}								% Latin modern font
-\usepackage{helvet}									% Enables font switching
-\usepackage[T1]{fontenc}							% Output settings
-\usepackage[english]{babel}							% Language settings
-\usepackage[utf8]{inputenc}							% Input settings
-\usepackage{amsmath}								% Mathematical expressions (American mathematical society)
-\usepackage{amssymb}								% Mathematical symbols (American mathematical society)
-\usepackage{graphicx}								% Figures
-\usepackage{subfig}									% Enables subfigures
-\numberwithin{equation}{chapter}					% Numbering order for equations
-\numberwithin{figure}{chapter}						% Numbering order for figures
-\numberwithin{table}{chapter}						% Numbering order for tables
-\usepackage{listings}								% Enables source code listings
-\usepackage{paralist}								% Inline lists
+\usepackage{moreverb}            % List settings
+\usepackage{textcomp}            % Fonts, symbols etc.
+\usepackage{lmodern}             % Latin modern font
+\usepackage{helvet}              % Enables font switching
+\usepackage[T1]{fontenc}         % Output settings
+\usepackage[english]{babel}      % Language settings
+\usepackage[utf8]{inputenc}      % Input settings
+\usepackage{amsmath}             % Mathematical expressions 
+\usepackage{amssymb}             % Mathematical symbols
+\usepackage{graphicx}            % Figures
+\usepackage{subfig}              % Enables subfigures
+\numberwithin{equation}{chapter} % Numbering order for equations
+\numberwithin{figure}{chapter}   % Numbering order for figures
+\numberwithin{table}{chapter}    % Numbering order for tables
+\usepackage{listings}            % Enables source code listings
+\usepackage{paralist}            % Inline lists
 \usepackage{tikz}
-\usepackage{multicol}
+\usepackage{tikz-uml}
 \usepackage[top=3cm, bottom=3cm,
-			inner=3cm, outer=3cm]{geometry}			% Page margin lengths			
-\usepackage{eso-pic}								% Create cover page background
-\usepackage{multirow}  % REST-API tables
+            inner=3cm, outer=3cm]{geometry} 
+                                 % Page margin lengths
+\usepackage{eso-pic}             % Create cover page background
+\usepackage{multirow}            % REST-API tables
 \newcommand{\backgroundpic}[3]{
 	\put(#1,#2){
 	\parbox[b][\paperheight]{\paperwidth}{
@@ -84,11 +85,15 @@
 			singlelinecheck=false]{caption} 		
 
 		  	
-% Activate clickable links in table of contents  	
+% Activate clickable links in table of contents  
 \usepackage{hyperref}
-\hypersetup{colorlinks, citecolor=black,
+\hypersetup{pdftex,unicode=true,colorlinks, citecolor=black,
    		 	filecolor=black, linkcolor=black,
-    		urlcolor=black}
+    		urlcolor=black,
+    		pdfauthor={Johan Angséus, Adrian Bjugård, Wilhelm Hedman, Johan Lindskogen, Oskar Nyberg, Joel Torstensson},
+ pdftitle={Decentralized Cloud Computing Platforms},
+ pdfsubject={Building a Global Marketplace for Computing Power},
+ pdfkeywords={decentralization;blockchain;trustless;consensus;Ethereum;smart;contract;Solidity}}
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
 
 % Define the number of section levels to be included in the t.o.c. and numbered	(3 is default)	

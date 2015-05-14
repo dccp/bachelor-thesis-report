@@ -39,8 +39,44 @@ We propose that a blockchain with capability to store and execute code can be us
 
 \subsection{Dependencies and assumptions}
 \label{sec:res:dependencies}
-We assume that there exists some external blockchain in/on which, the network will store its data and that it provides trustless arbitration between the involved parties. The term contract is used as a shorthand for smart contract, here defined to be at least capable of the set of \textit{quasi}-Turing complete actions described in section \fullref{sec:tech:contracts}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume there exists a method to package work so that it is easy to distribute from clients to workers, and for workers to perform.
+We assume that there exists some external blockchain on which the network will store its data and that it provides trustless arbitration between the involved parties. The term contract is used as a shorthand for smart contract, here defined to be at least capable of the set of \textit{quasi}-Turing complete actions described in section \fullref{sec:tech:contracts}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume there exists a method to package work so that it is easy to distribute from clients to workers, and for workers to perform.
 Note that the protocol is platform agnostic, in spite of the assumptions made and the dependencies required.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[auto]
+\tikzumlset{fill class=white}
+\umlclass[type=contract]{WorkerDispatcher}{ 
+  + workerInfo: Map<PublicKey, Worker>\\
+  + workerList: List<PublicKey>
+  }{
+  + buyContract(worker: PublicKey,\\
+  \ \ \ \ length: int): PublicKey\\
+  + registerWorker(length: int,\\
+  \ \ \ \ price: int, name: string): void
+  }
+\umlclass[below=1cm of WorkerDispatcher, type=contract]{WorkAgreement}{ 
+  + price: int\\
+  + end: int\\
+  -- client: PublicKey\\
+  -- worker: PublicKey\\
+  -- testers: List<PublicKey>
+  }{
+  + provideVerification(data): void\\
+  + redeemPayment(): void
+  }
+\umlclass[right=1cm of WorkerDispatcher, type=struct]{Worker}{ 
+  + name: string\\
+  + maxLength: int\\
+  + price: int\\
+  + agreement: PublicKey
+  }{}
+\umluniassoc{WorkerDispatcher}{WorkAgreement}
+\umluniassoc{WorkerDispatcher}{Worker}
+\end{tikzpicture}
+\caption{Smart contract UML diagram.}
+\label{fig:res:umal}
+\end{figure}
 
 \subsection{Contract interaction}
 Communication within the network consists of actions which change the state of at least one of the associated contracts in the blockchain. Contracts are used for
@@ -49,7 +85,7 @@ Communication within the network consists of actions which change the state of a
 \item arbitration between worker and client; and
 \item to hold monetary value in escrow.
 \end{inparaenum}
-For these tasks, two contracts are used; WorkAgreement and WorkerDispatcher, the later being the main contract. The contracts are shown in Figure XX.
+For these tasks, two contracts are used; WorkAgreement and WorkerDispatcher, the later being the main contract. The contracts are shown in Figure~\ref{fig:res:umal}.
 
 \textbf{WorkAgreement} is the contract which deals with the interaction between the client and the worker. This contract holds the value paid by the client for the work to be done in escrow, it also holds information about how well the worker has performed the given work. Once the worker has performed the work as described in the contract the value can be released to the worker's account.
 
@@ -60,23 +96,17 @@ For the communication between specific clients and workers, private chat is used
 
 \subsection{Brokering the client-worker agreement}
 \label{sec:res:brokering}
-{\huge\color{red}\textbf{OED: PLES FEX!}}
-When a client has received a WorkAgreement from the WorkerDispatcher, the client initiates communication with the assigned worker through private chat. 
-The process starts with the client sending the WorkAgreement contract address to the worker, the worker then proceeds to check if it agrees with the contract and that it is correct.
-% The client starts by sending the WorkAgreement contract address to the worker. The worker proceeds to check if it agrees the contract and that it is correct.
-When the verification is done the worker sends a message over private chat to the client with the IP and port for transferring the packaged work (explained in next section). When the transfer is done the worker starts to deploy the packaged work. When the work is ready to be accessed the worker sends a message to the client specifying the IP and port for external access.
+When a client has received a WorkAgreement from the WorkerDispatcher, the client initiates communication with the assigned worker through private chat. The process starts with the client sending the WorkAgreement contract address to the worker, the worker then proceeds to check if it agrees with the contract.When the verification is done the worker sends a message over private chat to the client with the IP and port for transferring the packaged work (explained in next section). When the transfer is done the worker starts to deploy the packaged work. When the work is ready to be accessed the worker sends a message to the client specifying the IP and port for external access.
 
-\subsection{Work transfer}
-Once an agreement has been brokered between client and worker, the actual work needs to be transferred to the worker.
-Immediately after the contract negotiation is finished, the worker starts listening for the docker image. If the protocol is followed correctly, the client then starts sending the docker image. 
-Send arbitrary work from client to worker.
+\subsection{Work transfer and execution}
+When the contract negotiation is finished, the work, defined as code executable on the worker, needs to be transferred to the worker. The worker is placed into a receiving state, and the client can proceed to send the work. Once the worker has received the work, it proceeds to execute it, stopping once the contract has been fulfilled. 
 
-\subsection{Auditing/Verification}
+\subsection{Work auditing and verification}
 \label{sec:res:auditing}
-In order to know that a worker is performing a given work, other workers are assigned as verifiers. These verifiers are given a time frame in which they are required to report checked parameters of the given worker to the WorkAgreement contract. The most basic check that could be done is simply for the verifier to check that the worker is providing the given work through the IP and port that it has communicated. This does however only check uptime of the given worker not that the work has been correctly performed. More rigid testing could be done by the verifiers by making more specific request to the worker, but since the verifiers do not really know anything about the work to be done, the client will have to provide this specific request information.
+In order to know that a worker is performing a given work, other workers are assigned as verifiers. These verifiers are given a time frame in which they are required to report checked parameters of the given worker to the WorkAgreement contract. This is done through the \textit{provideVerification} method, which is only callable by verifiers. The most basic check that could be done is simply for the verifier to check that the worker is providing the given work through the IP and port that it has communicated. This does however only check uptime of the given worker not that the work has been correctly performed. More rigid testing could be done by the verifiers by making more specific request to the worker, but since the verifiers do not really know anything about the work to be done, the client will have to provide this specific request information.
 
 \subsection{Payment arbitration}
-When a WorkAgreement is created it must also be provided with an appropriate amount of payment for the given work. The value of this payment is then held in escrow by the contract until some specified conditions in the contract has been met. These conditions consists of verifications that the verifiers have performed and checks that the worker has performed for the given amount of time. When all conditions are met the worker can make a special method call to the WorkAgreement and the contract will make a payout the the worker.
+When a WorkAgreement is created it must also be provided with an appropriate amount of payment for the given work. The value of this payment is then held in escrow by the contract until some specified conditions in the contract has been met. These conditions consists of verifications that the verifiers have performed and checks that the worker has performed for the given amount of time. When all conditions are met the worker can call the \textit{redeemPayment} method in the WorkAgreement and the contract will make a payout the the worker. This can also be done by all the verifiers of the WorkAgreement, although their reward is much smaller. Any calls to \textit{redeemPayment} by anyone not entitled to receive payments will be ignored.
 
 \subsection{Security}
 The protocol itself can be seen as secure in most aspects as it mostly runs on top of a blockchain. Security concerns can instead be found in that individual workers can be attacked. Workers provide their services through regular HTTP connections and is therefore vulnerable to \textit{e.g.} DDoS-attacks, man in the middle attacks (MITM). just as regular service providers are. The protocol does not take this into account and thus only reward workers that have successfully provided results. However if the protocol is implemented correctly only the client and verifiers can know the IP-address of the worker if the client doesn't share it.

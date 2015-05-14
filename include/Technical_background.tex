@@ -141,7 +141,7 @@ Docker uses virtualization techniques to create isolated environments called con
 An important factor when volunteering to run arbitrary code on a private machine is security. The software could potentially corrupt the data on disks, or steal all the data. 
 Docker containers are executed in a separate environment, a kernel namespace, from other containers and the host machine, meaning that it cannot know about or interact with the outside world~\cite{docker-security}. To communicate with the outside world, certain ports can be exposed on the container, and will be mapped to the host machine. Thus, network communication can only occur in an expected and controlled way. 
 
-A containerized application can be run with constrictions on CPU and memory usage, to prevent memory leaks to propagate.
+A containerized application can be run with restrictions on CPU and memory usage, to prevent memory leaks to propagate to the host system.
 
 \subsection{Dockerfile}
 Docker images are defined by a format called Dockerfile~\cite{docker-dockerfile}. The easiest, and the most common, method of building a Docker image is to use one of many provided base images, available directly from the leading distributors in the market such as Nginx, Ubuntu, MySQL and WordPress, to name a few. The image builder selects a fitting base image, adds the required configuration and data, and saves the resulting image under a tag in the local Docker repository. This image can then be exported and distributed for deployment wherever desired.
