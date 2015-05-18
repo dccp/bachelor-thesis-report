@@ -7,17 +7,18 @@ This appendix lists the REST API offered by Zeppelin backend and the JavaScript 
 \begin{lstlisting}
 GET /images
 List all Docker images.
-Default response: 200
+Ordinary response: 200
 Response model:
 
 Array[Image] {
 }
+
 Image {
   Created (integer),
   Id (string),
   Labels (Array[string], optional),
   ParentId (string),
-  RepoDigests (Array[oklart]),
+  RepoDigests (Array[string]),
   RepoTags (Array[string]),
   Size (integer),
   VirtualSize (integer)
@@ -44,4 +45,14 @@ RecipientData {
 \end{lstlisting}
 
 \section{Docker transfer JavaScript API}
-Docker transfer and the spiders from Mars.
+\begin{lstlisting}
+dockerTransfer {
+  client {
+    function listImages(): Promise(resolve, reject)
+    function sendImage(imageHash, host, port): Promise(resolve, reject) 
+  }
+  server {
+    function receive(name, port): Promise(resolve, reject)
+  }
+}
+\end{lstlisting}

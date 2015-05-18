@@ -1,18 +1,9 @@
-% CREATED BY DAVID FRISK, 2014
 
 \thispagestyle{plain}			% Supress header 
 \section*{Sammanfattning}
-Ämnet för kandidatrapporten är dencentraliserade molnberäkningsplattformar. Syftet med kandidatrapporten är att bygga ett global marknadsplats för beräkningskraft med hjälp av Ethereum-platformen och en egenimplementerad referensimplementation med namn Zeppelin. Zeppelin är baserat på att protokoll som är utvecklat för tillitlös handling med beräkningskraft. Under de senaste åren har Bitcoin och andra kryptovalutor blomstrat som alternativ till vanliga valutor. Ethereum tar Bitcoins blockchain lite längre genom att tillåta så kallade smarta kontrakt som kan tvinga en tillitlös miljö.\\ \newline
-Kandidatarbetet består huvudsakligen av två projekt;
-\begin{itemize}
-\item Utveckla ett protkoll för att hantera tillitlös handling med beräkningskraft och andra tjänster
-\item Utveckla och skapa en referensimplementation av protokollet genom att använda Ethereum-platformen, JavaScript och Docker.\newline
-\end{itemize}
-För att kunna testa Zeppelin behövdes ett mindre testnätverk. Därför införskaffades ett nätverk bestående av tre stycken Raspberry PIs, som kallas Zeppelin, som används för att kunna testa implementationen.
+Denna rapport sätter decentraliserade nätverk i ett tekniskt och praktiskt sammanhang, samt beskriver en grund för decentraliserade molnbaserade beräkningsplattformar genom att föreslå ett protokoll som kan nyttjas för att skapa sådana plattformar. Huvudproblemet innefattar hur arbete ska distribueras och verifieras inom det decentraliserade nätverket. För att avvärja attacker riktade mot nätverket från både interna och externa aktörer används en kombination av incitament och ekonomiska principer. Protokollet använder både en generaliserad blockkedja och andra mer etablerade elektroniska kommunkationssätt. Genom att använda smarta kontrakt möjliggörs tillitslösa överenskommelser mellan deltagare i nätverket.
 
-% KEYWORDS (MAXIMUM 10 WORDS)
-\vfill
-\noindent Nyckelord: decentralisering, blockchain, tillitlös, samstämmighet, Ethereum, smarta, kontrakt, Solidity.
+En referensimplementation av protokollet har delvis realiserats i Ethereum-nätverkets generella blockkejda, och har testats på ett mindre nätverk med goda resultat. Referensimplementationen är modulär och demonstrerar möjligheten att använda både en traditionell backend och en blockkedjebaserad backend i decentraliserade applikationer. Genom att använda en blockkedja kan viss applikationsdata och affärslogik lagras och exekveras på en globalt distribuerad virtuell maskin. Referensimplementationen är ännu inte redo för driftsättning, utan ska ses som en teknikdemonstration av det föreslagna protokollet. Att referensimplementationen inte är redo för drift kan tillskrivas det faktum att generaliserade blockkedjor i sitt nuvarande tillstånd ännu inte går att lita på i en produktionsmiljö, eftersom de ännu är under utveckling.
 
 \newpage				% Create empty back of side
 \thispagestyle{empty}
