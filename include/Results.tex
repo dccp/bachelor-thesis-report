@@ -6,6 +6,8 @@ In addition to the protocol, a reference implementation has been developed and t
 \label{sec:res:protocol}
 The network connects clients, who pay to perform work, with workers, which are paid to perform work. In order for the network, and its cloud computing platform, to thrive, it relies on an open market where the supply of workers meets the demand of clients. Any person with a computer could register to become a worker and receive payment for the work they perform, and conversely, any person with the desire to execute arbitrary code can do so, provided they can pay for it. The high level flow of workers and clients within the network is shown in Figure~\ref{network-schema}.
 
+We propose that a blockchain with capability to store and execute code can be used to satisfy the requirements specified in \fullref{sec:intro:purpose}.
+
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}[auto]
@@ -34,8 +36,6 @@ The network connects clients, who pay to perform work, with workers, which are p
 \caption{Simplified network state diagram}
 \label{network-schema}
 \end{figure}
-
-We propose that a blockchain with capability to store and execute code can be used to satisfy the requirements specified in \fullref{sec:intro:purpose}.
 
 \subsection{Dependencies and assumptions}
 \label{sec:res:dependencies}
@@ -126,7 +126,7 @@ The system design is characterized by high modularity, allowing for reuse or rei
 
 \textbf{Zeppelin frontend.} For the simplicity of the end user, all interactions are made in a web interface, in the form of a JavaScript client application. The frontend interacts with two backends to display data: to communicate with the Ethereum client over JSON-RPC, the library web3.js is used; to manage Docker the REST API in the Zeppelin backend is used.
 
-\textbf{Zeppelin backend.} This module acts as the \textit{traditional} backend, serving the static client web application and acting as a RESTful server for user interactions with Docker, through the Docker transfer module. It exposes the REST API specified in Appendix~\ref{app:api}.
+\textbf{Zeppelin backend.} This module acts as the \textit{traditional} backend, serving the static client web application and acting as a RESTful server for user interactions with Docker, through the Docker transfer module.
 
 \textbf{Docker transfer.} Works as both client and server for sending and receiving gzipped Docker images and running the containers. When the worker is placed in the receiving state, a Docker transfer server is spawned on the worker, waiting for a connection from the client. Once a connection is made the client compresses the desired Docker image and sends it to the worker, which imports the image into its own Docker repository.
 

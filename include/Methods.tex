@@ -1,7 +1,7 @@
 \chapter{Methods}
 We shall here describe our methodology for the development process of the protocol and the reference implementation, and provide backgrounds and motivations for the third party software used. The test network used for the reference implementation is also described.
 
-\section{Implementation work flow}
+\section{Implementation workflow}
 All produced software artifacts and their source code have been open source throughout the development process, so that others might benefit from the research, especially since this technology is in its cradle. Dependencies on third party software should only be made following an assessment of the stability, security and longevity of the software. Based on these principles, the stability of the foundation upon which the produced artifacts depend can be maximized. Exempt from this principle was the Ethereum client AlethZero, which was under development throughout the entire length of the study. 
 
 \section{General purpose blockchain}
@@ -44,7 +44,7 @@ During development, for testing and researching purposes, a local network consis
 
 \textbf{Compiler network.} Since Ethereum is still unfinished software, it must be updated regularly. This takes a large amount of processing power every time it is done, and while the Raspberry Pi 2 is a capable machine for testing purposes, the several hour long task of recompiling Ethereum every other day is too much of an obstruction for the work flow. In order to speed up the process a distributed compiler network was deployed at an early stage. To facilitate this the hardware is networked together via an Ethernet switch, enabling fast communication between all the nodes as well as the Internet when required. 
 
-\textbf{Private blockchain.} While testing and developing the reference implementation, some level of control over the blockchain was required. Primarily because both running as well as testing any software in the Ethereum network requires the use of the Ether cryptocurrency. For this a local Ethereum blockchain was deployed during the early stages of development.
+\textbf{Private blockchain.} While testing and developing the reference implementation, some level of control over the blockchain was required. Primarily because both running as well as testing any software in the Ethereum network requires the use of the Ether cryptocurrency. For this reason, a local Ethereum blockchain was deployed during the early stages of development.
 
 \textbf{Nodes in the public blockchain.} The test environment was eventually moved to the public blockchain, to have a complete mirror of the production environment while developing.
 
