@@ -4,7 +4,7 @@ Cloud computing is an abstraction implying the possibility to store data and exe
 \section{Background}
 Services allowing companies and individuals to purchase cloud computing power and storage from a hosting provider, \emph{e.g.} Amazon and Google, have existed for some time. However, this places the consumer in a position where trust between the two parties is necessary: trust that the Service Level Agreement is honored; trust that information is kept secret; trust that when the customer deletes information, the information is actually deleted and not secretly kept stored by the storage provider.
 
-Initiatives essentially working in reverse of the above, requesting donations of computation power for scientific purposes have also been around for a while. Examples of these include SETI@home (analysis of radio telescopy) and Folding@home (protein analysis). These are centralized grid computing projects that have resulted in powerful networks building on voluntary contribution to science.
+Initiatives essentially working in reverse of the above, requesting donations of computation power for scientific purposes have also been around for a while. Examples of these include SETI@home (analysis of radio telescopy) and Folding@home (protein analysis)~\cite{korpela:2012}. These are centralized grid computing projects that have resulted in powerful networks building on voluntary contribution to science.
 
 By combining and decentralizing
 \begin{inparaenum}[\itshape a\upshape)]
@@ -15,17 +15,17 @@ we propose that a global marketplace of distributed computation power could be c
 
 \section{Purpose}
 \label{sec:intro:purpose}
-The purpose of this thesis is to investigate how to distribute work on a network of nodes with no central authority, and how to verify that the work has been executed correctly. The key focus is to conduct research in the field of decentralized applications, and to draft a protocol which supports the ideas and features discovered along the way. An effort should be made to create a reference implementation of the protocol and deploy it on a small scale network. The network must meet the following criteria to be usable:
+The purpose of this thesis is to investigate how to distribute work on a network of nodes with no central authority, and how to verify that the work has been executed correctly. The key focus is to conduct research in the field of decentralized applications, and to draft a protocol that supports the ideas and features discovered along the way. An effort should be made to create a reference implementation of the protocol and deploy it on a small scale network. The network must meet the following criteria to be usable:
 
 \textbf{Transparency.} All transactions in the network should be transparent and traceable to show that the system is fair. To achieve this, ledgers must be persistent and auditable.
 
-\textbf{Resilience.} The network must be resistant to attacks from internal and external actors. Such attacks could include disruption of access to the network (DDoS) and attacks that seek to compromise the integrity of ledgers and sabotage the infrastructure of the network.
+\textbf{Resilience.} The network must be resistant to attacks from internal and external actors. Such attacks could include disruption of access to the network (DDoS) and attacks that seek to compromise the integrity of ledgers and sabotage the infrastructhttps://www.sharelatex.com/project/54f047c067a05fe35700e10dure of the network.
 
 \textbf{Trustlessness.} Users of the platforms should not be required to trust each other about the details of their agreement when interacting with each other. This should be abstracted away into deterministic code.
 
 \section{Problem}
 \label{sec:intro:problem}
-The overall problem can be summed up as follows: designing a network that lets a client pay to perform work, distributes the work, and pays the workers for their contributions. This problem involves a number of challenges in both security and network communication. However, the challenges can be divided into different subproblems which are easier to solve. Below, \emph{client} refers to a user paying to perform work on the cloud platform; \emph{work} refers to some arbitrary piece of software defined by a client and submitted to be run on the cloud platform; and \emph{worker} refers to a cloud platform node which is performing work in exchange of monetary compensation.
+The overall problem can be summed up as follows: designing a network that lets a client pay to perform work, distributes the work, and pays the workers for their contributions. This problem involves a number of challenges in both security and network communication. However, the challenges can be divided into different subproblems that are easier to solve. Below, \emph{client} refers to a user paying to perform work on the cloud platform; \emph{work} refers to some arbitrary piece of software defined by a client and submitted to be run on the cloud platform; and \emph{worker} refers to a cloud platform node which is performing work in exchange of monetary compensation.
 We address the following three issues:
 \begin{itemize}
 \item How can work be distributed in a decentralized network?
@@ -33,9 +33,11 @@ We address the following three issues:
 \item How can workers receive payment for performed work?
 \end{itemize}
 
+These issues have so far not been researched in a decentralized context. There exist numerous papers describing such problems in centralized grid computing infrastructures. 
+
 \subsection{Distribution of work}
 \label{sec:prob:distribution}
-A client that wishes to have its work executed must have a way of finding workers. This is traditionally done using a centralized server which maintains a record of all workers and their identities~\cite{anderson:2005}\cite{sarmenta:2002}. For obvious reasons such a method could not be used in a decentralized network~\cite{baran}. Therefore, there must be a way to store this information in a non central location. Furthermore, a uniform way of specifying the work payload is necessary to ensure interface compatibility between clients and workers. There must also be a way to decide which worker(s) that will receive the work. This must be done in a manner which ensures all work is distributed somewhat equal throughout the network, and requirements from the worker have to be taken into consideration. Whenever a worker receives work, the work must be executed at some point in the future, implementing weak fairness. Both clients and workers will be interested in metadata, so there must be a way to send and receive information about work and its status to and from clients and workers.
+A client that wishes to have its work executed must have a way of finding workers. This is traditionally done using a centralized server which maintains a record of all workers and their identities~\cite{anderson:2005}\cite{sarmenta:2002}. For obvious reasons such a method could not be used in a decentralized network~\cite{baran}. Therefore, there must be a way to store this information in a non central location. Furthermore, a uniform way of specifying the work payload is necessary to ensure interface compatibility between clients and workers. There must also be a way to decide which worker(s) that will receive the work. This must be done in a manner that ensures all work is distributed somewhat equal throughout the network, and requirements from the worker have to be taken into consideration. Whenever a worker receives work, the work must be executed at some point in the future, implementing weak fairness. Both clients and workers will be interested in metadata, so there must be a way to send and receive information about work and its status to and from clients and workers.
 
 \subsection{Verification of work}
 \label{sec:prob:verification}

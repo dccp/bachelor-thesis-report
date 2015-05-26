@@ -33,7 +33,7 @@ We propose that a blockchain with capability to store and execute code can be us
 \item Worker performs work
 \item Network confirms work and sends payment to worker
 \end{enumerate}
-\caption{Simplified network state diagram}
+\caption{Proposed simplified network state diagram.}
 \label{network-schema}
 \end{figure}
 
@@ -109,7 +109,7 @@ In order to know that a worker is performing a given work, other workers are ass
 When a WorkAgreement is created it must also be provided with an appropriate amount of payment for the given work. The value of this payment is then held in escrow by the contract until some specified conditions in the contract have been met. These conditions consist of verifications that the verifiers have performed and checks that the worker has performed for the given amount of time. When all conditions are met the worker can call the \textit{redeemPayment} method in the WorkAgreement and the contract will release the payment held in escrow to the worker. In a similar fashion, all the verifiers of a WorkAgreement can withdraw payment for their completed services, although their reward is significantly smaller. Any calls to \textit{redeemPayment} by a party not entitled to receive payments will be ignored.
 
 \subsection{Security}
-The protocol itself can be seen as secure in most aspects as it mostly runs on top of a blockchain. Security concerns can instead be found in that individual workers can be attacked. Workers provide their services through regular HTTP connections and is therefore vulnerable to \textit{e.g.} DDoS-attacks and man in the middle attacks (MITM), just as regular service providers are. The protocol does not take this into account and thus only reward workers that have successfully provided results. However if the protocol is implemented correctly only the client and verifiers can know the IP-address of the worker if the client chooses not to share it.
+The protocol itself can be seen as secure in most aspects as it mostly runs on top of a blockchain. Security concerns can instead be found in that individual workers can be attacked. Workers provide their services through regular HTTP connections and is therefore vulnerable to \textit{e.g.} DDoS-attacks and man in the middle attacks (MITM), just as regular service providers are. The protocol does not take this into account and thus only reward workers that have successfully provided results. However if the protocol is implemented correctly only the client and verifiers can know the IP address of the worker if the client chooses not to share it.
 
 \subsection{Environmental impact}
 There has not been much research conducted on the environmental impact of decentralized networks, perhaps because it is very hard to foresee how nodes in the network will behave and how they will consume power. However, the Bitcoin network has proven to outperform traditional monetary transaction networks by far when comparing carbon dioxide emissions \cite{cook}. It is not clear whether this is applicable when comparing arbitrary decentralized networks and their centralized counterparts, but since McCook's work is describing decentralization as more efficient, it can definitely be argued that decentralized applications will have an overall positive impact on the environment when compared to centralized dittos.
