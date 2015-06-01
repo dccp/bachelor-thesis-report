@@ -1,6 +1,6 @@
-\chapter{Results}
-Our solution consists of a general protocol, which fulfills the demands of the proposed network outlined in \fullref{sec:intro:purpose} and solves the underlying problem described in \fullref{sec:intro:problem}.
-In addition to the protocol, a reference implementation has been developed and tested on a small scale test network.
+\chapter{Result}
+Our proposed solution is a general protocol, which fulfills the demands of the proposed network outlined in \fullref{sec:intro:purpose} and solves the underlying problem described in \fullref{sec:intro:problem}.
+In addition to the protocol, a reference implementation has been developed and tested on a small-scale test network.
 
 \section{General protocol}
 \label{sec:res:protocol}
@@ -39,7 +39,7 @@ We propose that a blockchain with capability to store and execute code can be us
 
 \subsection{Dependencies and assumptions}
 \label{sec:res:dependencies}
-We assume that there exists some external blockchain in which the network will store its data and that it provides trustless arbitration between the involved parties. The term contract is used as a shorthand for smart contract, here defined to be at least capable of the set of \textit{quasi}-Turing complete actions described in section \fullref{sec:tech:contracts}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume there exists a method to package work so that it is easy to distribute from clients to workers, and for workers to perform.
+We assume that there exists some external blockchain in which the network will store its data and that it provides trustless arbitration between the involved parties. The term contract is used as a shorthand for smart contract, here defined to be at least capable of the set of \textit{quasi}-Turing--complete actions described in \fullref{sec:tech:halting}. We also assume that two peers can communicate anonymously, given that each peer has access to the public key of the other peer. This will be referred to as private chat. Finally we also assume there exists a method to package work so that it is easy to distribute from clients to workers, and for workers to perform.
 Note that the protocol is platform agnostic, in spite of the assumptions made and the dependencies required.
 
 \begin{figure}[ht]
@@ -47,8 +47,8 @@ Note that the protocol is platform agnostic, in spite of the assumptions made an
 \begin{tikzpicture}[auto]
 \tikzumlset{fill class=white}
 \umlclass[type=contract]{WorkerDispatcher}{ 
-  + workerMetadata: Map<PublicKey, Worker>\\
-  + workerList: List<PublicKey>
+  + workerMetadata: Map[PublicKey, Worker]\\
+  + workerList: List[PublicKey]
   }{
   + buyContract(worker: PublicKey,\\
   \ \ \ \ length: int): WorkerAgreement\\
@@ -58,9 +58,9 @@ Note that the protocol is platform agnostic, in spite of the assumptions made an
 \umlclass[below=1cm of WorkerDispatcher, type=contract]{WorkAgreement}{ 
   + price: int\\
   + end: int\\
-  -- client: PublicKey\\
-  -- worker: PublicKey\\
-  -- testers: List<PublicKey>
+  + client: PublicKey\\
+  + worker: PublicKey\\
+  + verifiers: List[PublicKey]
   }{
   + provideVerification(data): void\\
   + redeemPayment(): void
@@ -89,14 +89,15 @@ For these tasks, two contracts are used; WorkAgreement and WorkerDispatcher, the
 
 \textbf{WorkAgreement.} To provide interaction between the client and the worker for a work instance, the contract WorkAgreement is used. The contract holds the value paid by the client for the work to be done in escrow until the work is finished and holds information about auditing reports from the external verifiers of the work. Once the worker has performed the work as described in the contract, the value held in escrow can be released to the worker.
 
-\textbf{WorkerDispatcher.} As the main contract of the protocol, this serves as the entry point. WorkerDispatcher provides infrastructure for workers to register their interest to perform work, by calling \textit{registerWorker}. Clients use this contract to buy WorkAgreement contracts. This is done by calling the method \textit{buyContract} with desired parameters. The WorkerDispatcher creates a WorkAgreement, and assigns a worker and a given number of verifiers (described in \fullref{sec:res:auditing}).
+\textbf{WorkerDispatcher.} As the main contract of the protocol, this serves as the entry point. WorkerDispatcher provides infrastructure for workers to register their interest to perform work, by calling \textit{registerWorker}. Clients use this contract to buy WorkAgreement contracts. This is done by calling the method \textit{buyContract} with desired parameters. The WorkerDispatcher creates a WorkAgreement, and assigns a worker and a given number of verifiers, this is described in detail in \fullref{sec:res:communication}.
 
 \subsection{Direct communication between clients and workers}
+\label{sec:res:communication}
 For the communication between specific clients and workers, private chat is used. When transferring data from the client to the worker, encrypted TCP/IP traffic is used. The hosted data provided by the worker is then accessible via the appropriate application protocol.
 
 \subsection{Brokering the client-worker agreement}
 \label{sec:res:brokering}
-As soon as a client has received a WorkAgreement from the WorkerDispatcher, the client initiates communication with the assigned worker through private chat. The process starts with the client sending the WorkAgreement contract address to the worker, after which the worker proceeds to check if it agrees with the contract. When the verification is done, the worker sends a message over private chat to the client with the IP and port to be used to transfer the packaged work (explained in next section). Upon receiving the work, the worker starts to deploy the packaged work. When the work is ready to be accessed, the worker sends a message back to the client specifying the IP and port for external access.
+As soon as a client has received a WorkAgreement from the WorkerDispatcher, the client initiates communication with the assigned worker through private chat. The process starts with the client sending the WorkAgreement contract address to the worker, after which the worker proceeds to check if it agrees with the contract. When the verification is done, the worker sends a message over private chat to the client with the IP and port to be used to transfer the packaged work (explained in section 4.1.5). Upon receiving the work, the worker starts to deploy the packaged work. When the work is ready to be accessed, the worker sends a message back to the client specifying the IP and port for external access.
 
 \subsection{Work transfer and execution}
 When the contract negotiation is finished, the work, defined as code executable on the worker, must be transferred to the worker. The worker is placed into a receiving state, and the client can proceed to send the work. Once the worker has received the work, it proceeds to execute it, stopping once the contract has been fulfilled. 
@@ -110,9 +111,6 @@ When a WorkAgreement is created it must also be provided with an appropriate amo
 
 \subsection{Security}
 The protocol itself can be seen as secure in most aspects as it mostly runs on top of a blockchain. Security concerns can instead be found in that individual workers can be attacked. Workers provide their services through regular HTTP connections and is therefore vulnerable to \textit{e.g.} DDoS-attacks and man in the middle attacks (MITM), just as regular service providers are. The protocol does not take this into account and thus only reward workers that have successfully provided results. However if the protocol is implemented correctly only the client and verifiers can know the IP address of the worker if the client chooses not to share it.
-
-\subsection{Environmental impact}
-There has not been much research conducted on the environmental impact of decentralized networks, perhaps because it is very hard to foresee how nodes in the network will behave and how they will consume power. However, the Bitcoin network has proven to outperform traditional monetary transaction networks by far when comparing carbon dioxide emissions \cite{cook}. It is not clear whether this is applicable when comparing arbitrary decentralized networks and their centralized counterparts, but since McCook's work is describing decentralization as more efficient, it can definitely be argued that decentralized applications will have an overall positive impact on the environment when compared to centralized dittos.
 
 \section{Reference implementation: Zeppelin}
 The reference implementation, called Zeppelin\footnote{Because a Zeppelin navigates above the clouds with grace.}, is a web application for end users, which is dependent on the Ethereum network. For computational integrity, the client constructs a Docker image which is sent to the worker. The implementation is built around the concept of a thin server, and a fat client. Of note is the fact that there are two backends with which the frontend communicates; the web server, acting as the \textit{traditional} backend; and the smart contract interaction through Ethereum, acting as the secondary backend for all blockchain-based interactions. Zeppelin is not a complete implementation of the protocol described in \fullref{sec:res:protocol}. Rather it solves only the problem of distributing work in the network. However it is possible to build upon Zeppelin to implement the remaining features of the protocol.

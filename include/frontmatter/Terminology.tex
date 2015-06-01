@@ -2,9 +2,10 @@
 \section*{Terminology}
 \subsection*{General terms and abbreviations}
 \begin{description}[style=nextline]
-  \item[API] 
+  \item[ABI] Application binary interface. A machine-level entry point for a program component.
+  \item[API] Application programming interface. A high-level entry point to a software component.
   \item[Bitcoin] Short for the Bitcoin network. For the currency used by the network, see \emph{BTC}.
-  \item[Blockchain] \textbf{SCIENCE MISTER WHITE Bitch ain't one (99 problems)}
+  \item[Blockchain] A distributed and decentralized data store.
   \item[BTC] (pronounced as Bitcoin) refers to the currency in the Bitcoin network.
   \item[Centralized system] A system with one or more central points.
   \item[Cryptographic hash] A definite one way hash function.
@@ -12,20 +13,24 @@
   \item[Decentralized system] A system without any central points.
   \item[Ether] The currency of the Ethereum network. Compare with BTC and Bitcoin.
   \item[Ethereum] A general-purpose blockchain network.
-  \item[Nonce] An arbitrary number used only once in a certain environment.
-  \item[Proof-of-work]
-  \item[REST(ful)] Representational State Transfer. An API model.
+  \item[JSON] JavaScript object notation.
+  \item[JSON-RPC] A JSON-based remote procedure call scheme.
+  \item[MITM-attack] Man-in-the-middle attack. An attack where one relays and possibly modifies communication between two nodes who believe they are directly communicating to each other.
+  % https://www.owasp.org/index.php/Man-in-the-middle_attack
+  \item[Nonce] An arbitrary number used only once in a certain (cryptographic) environment.
+  \item[Proof-of-work] Regulatory mechanism in a blockchain designed to deter forgery.
+  \item[REST(ful)] Representational state transfer. An API model.
   \item[Smart contract] A piece of deterministic code, run on a blockchain, with which various entities can interact.
   \item[Trustless] Literally without trust. Here meant to signify that no trust is neccessary between nodes in the network.
   \item[Whisper] An anonymous message passing service on the Ethereum network.
   
 \end{description}
-\newpage
+%\newpage
 
 \subsection*{Terms with specific meanings in the thesis}
 \begin{description}[style=nextline]
   \item[Client] A user paying to perform \textit{work} on the cloud platform.
-  \item[Verifier] A Worker that verifies other workers.
+  \item[Verifier] A \textit{worker} that verifies other workers.
   \item[Work] An arbitrary piece of software to be run by a \textit{worker}, at the behest of a \textit{client}.
   \item[Worker] A cloud platform node performing \textit{work} in exchange of monetary compensation.
 \end{description}

@@ -1,4 +1,4 @@
-\chapter{Methods}
+\chapter{Method}
 We shall here describe our methodology for the development process of the protocol and the reference implementation, and provide backgrounds and motivations for the third party software used. The test network used for the reference implementation is also described.
 
 \section{Implementation workflow}
@@ -10,8 +10,9 @@ An existing blockchain is used due to the inherent security in a wider network. 
 \section{Development tools}
 The following tools have been used to provide a more efficient development process and a refined project planning structure.
 
-\subsection{Git}
-Git is a distributed version control system widely used by developers. It is based on speed, integrity of data and supported for distributed non-linear work flows~\cite{git}. Git is used in this project to manage code divided into different repositories and branches and to provide detailed logging of changes. 
+% Borttaget då det inte är av relevans
+%\subsection{Git}
+%Git is a distributed version control system widely used by developers. It is based on speed, integrity of data and supported for distributed non-linear work flows~\cite{git}. Git is used in this project to manage code divided into different repositories and branches and to provide detailed logging of changes. 
 
 \subsection{Pivotal Tracker}
 In order to aid the agile development process Pivotal Tracker is used. Pivotal Tracker is a story-based planning tool which allows members of the team to add stories to a virtual project board. It is based on agile development methods, which suits the team. Pivotal Tracker provides several story logs: tasks for the current sprint, a backlog, and an icebox for stories that need grooming~\cite{pivotaltracker}. Stories are automatically arranged in the backlog according to their estimated size and the projected sprint velocity. Each story item can be further elaborated by a number of subtasks related to it. 
@@ -23,7 +24,7 @@ AlethZero is a proof of concept graphical client for Ethereum~\cite{github-aleth
 A test environment was chosen and set up in order to test the implementation of the cloud computing platform, with multiple actors. In this chapter detailed information about the system is provided.
 
 \subsection{Hardware}
-To test the project, a computer with sufficient processing capabilities to host a simple and small blockchain, as well as a web server when acting as a worker, was required. The Raspberry Pi 2 Model B was chosen for this. The hardware specifications are listed in Table~\ref{rpi}.
+To test the project, a computer with sufficient processing capabilities to host a simple and small blockchain, as well as a web server when acting as a worker, was required. The Raspberry Pi 2 Model B was chosen because it is a cheap and viable computer. The hardware specifications are listed in Table~\ref{rpi}.
 
 \begin{table}[h]
 \centering
@@ -40,7 +41,7 @@ To test the project, a computer with sufficient processing capabilities to host 
 \end{table}
 
 \subsection{Network}
-During development, for testing and researching purposes, a local network consisting of three Raspberry Pi 2 computers was deployed. This network has served as the backbone for distributed compilation, a private blockchain network, local Ethereum test network nodes, and client as well as worker emulation for the reference implementation.
+During development, for testing and researching purposes, a local network consisting of three Raspberry Pi 2 computers was deployed. This network has served as the backbone for distributed compilation, a private blockchain network, local Ethereum test network nodes, and client as well as worker emulation for the reference implementation called Zeppelin.
 
 \textbf{Compiler network.} Since Ethereum is still unfinished software, it must be updated regularly. This takes a large amount of processing power every time it is done, and while the Raspberry Pi 2 is a capable machine for testing purposes, the several hour long task of recompiling Ethereum every other day is too much of an obstruction for the work flow. In order to speed up the process a distributed compiler network was deployed at an early stage. To facilitate this the hardware is networked together via an Ethernet switch, enabling fast communication between all the nodes as well as the Internet when required. 
 
